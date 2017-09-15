@@ -1,6 +1,8 @@
 var fs = require('fs');
 var path = require('path');
 var express = require('express');
+var util = require('../lib/util');
+
 var router = express.Router();
 
 // 斗鱼点歌 -> 加入播放队列
@@ -11,18 +13,12 @@ var SONG_CUT = false;
 var SONG_LIST = [];
 var databaseMusic = path.resolve(__dirname, '../database/music.json');
 
-function parseJSON(jsonStr) {
-  try {
-    return JSON.parse(String(jsonStr));
-  } catch (e) {}
-  return null;
-}
 
 function readSong() {
   var DEFAULT_SONG = '临安初雨';
   try {
     var database = fs.readFileSync(databaseMusic);
-    database = parseJSON(database.toString()) || {};
+    database = util.parseJSON(database.toString()) || {};
     database.playlist = database.playlist || [];
     database.songlist = database.songlist || [];
     var song = database.playlist.shift();
@@ -38,15 +34,6 @@ function readSong() {
     }
   } catch (e) {}
   return song || DEFAULT_SONG;
-}
-
-function readPlaylist() {
-  try {
-    var database = fs.readFileSync(databaseMusic);
-    database = parseJSON(database.toString()) || {};
-    return database.playlist || [];
-  } catch (e) {}
-  return [];
 }
 
 function writePlaylist(song) {
@@ -81,15 +68,6 @@ function recordSong(song) {
     fs.writeFileSync(path.resolve(__dirname, '../database/music.playlist.json'), JSON.stringify(playlist));
   } catch (e) {}
 }
-
-// 屏幕显示
-router.get('/', function(req, res, next) {
-  // 获取当前歌曲
-  var playlist = readPlaylist();
-  res.json([0, '', {
-    playlist: playlist
-  }])
-});
 
 // 斗鱼点歌
 router.get('/play', function(req, res, next) {

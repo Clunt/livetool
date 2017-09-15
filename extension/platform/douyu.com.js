@@ -30,13 +30,24 @@ PLATFORM.DouyuCom.prototype = {
     message = message || this.lastMessage || '';
     this.parseMusic(message);
     this.parseSwitch(message);
+    this.parseWelcome(message);
+  },
+  parseWelcome: function(message) {
+    message = message || this.lastMessage || '';
+    // nickname欢迎来到本直播间
+    var match = message.match(/(.+)欢迎来到本直播间/);
+    if (!match) return;
+    var nickname = (match[1] || '').trim();
+    if (!nickname) return;
+    var img = new Image();
+    img.src = 'http://127.0.0.1:6688/welcome?_t=' + Date.now() + '&nickname=' + encodeURIComponent(nickname);
   },
   parseMusic: function(message) {
     message = message || this.lastMessage || '';
     // #点歌 歌曲名-歌手#
     // #点歌 春风十里#
     // #点歌 理想三旬#
-    var match = message.match(/#点歌([^/#]+)(-([^#]+))?#/);
+    var match = message.match(/#点歌([^/#]+)(\/([^#]+))?#/);
     if (!match) return;
     var song = (match[1] || '').trim();
     var singer = (match[3] || '').trim();

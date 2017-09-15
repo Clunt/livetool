@@ -1,17 +1,9 @@
-var LIVELOAD_DURATION = 5000;
+function Music() {}
 
-function Music() {
-  this.liveload();
-}
-Music.prototype.liveload = function() {
-  Util.ajax({
-    url: '/music'
-  }, function(err, data) {
-    setTimeout(this.liveload.bind(this), LIVELOAD_DURATION);
-    if (err || !data) return;
-    this.playlist(data.playlist);
-  }.bind(this));
+Music.prototype.liveload = function(data) {
+  this.playlist(data.playlist);
 };
+
 Music.prototype.playlist = function(playlist) {
   playlist = playlist || [];
   var $li = $('li');
@@ -22,7 +14,7 @@ Music.prototype.playlist = function(playlist) {
     html += '<li>' + text + '</li>';
   }
   if (!html) {
-    html = '<li class="empty">欢迎大家踊跃点歌</li>';
+    html = '<li class="empty">暂无歌单，欢迎大家踊跃点歌</li>';
   }
   $('.app__music .music__playlist').html(html);
 };
