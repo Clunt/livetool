@@ -49,23 +49,16 @@ function writePlaylist(song) {
 }
 
 function recordSong(song) {
-  return;
   song.count = 1;
   try {
-    var playlist = fs.readFileSync(path.resolve(__dirname, '../database/music.playlist.json'));
-    playlist = JSON.parse(playlist.toString());
-    var songExist = false;
-    for (var i = 0; i < playlist.length; i++) {
-      if (playlist[i].id === song.id) {
-        song.count += 1;
-        songExist = true;
-        break;
-      }
-    }
-    if (!songExist) {
-      playlist.push(song);
-    }
-    fs.writeFileSync(path.resolve(__dirname, '../database/music.playlist.json'), JSON.stringify(playlist));
+    var database = fs.readFileSync(databaseMusic);
+    database = JSON.parse(database.toString()) || {};
+    database.current = song.name;
+    database.playlist = database.playlist || [];
+    var store = database.store;
+    store[song.id] = store[song.id] || song;
+    store[song.id].count += 1;
+    fs.writeFileSync(databaseMusic, JSON.stringify(database));
   } catch (e) {}
 }
 

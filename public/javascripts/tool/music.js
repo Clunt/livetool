@@ -13,8 +13,8 @@ Music.prototype.playlist = function(playlist) {
     text = text.replace(/</g, '&lt;').replace(/>/g, '&gt;')
     html += '<li>' + text + '</li>';
   }
-  if (!html) {
-    html = '<li class="empty">暂无歌单，欢迎大家踊跃点歌</li>';
+  if (playlist.length < 2) {
+    html = '<li class="empty">欢迎大家踊跃点歌～～～</li>';
   }
   $('.app__music .music__playlist').html(html);
 };

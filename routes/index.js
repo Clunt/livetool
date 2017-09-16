@@ -9,12 +9,16 @@ var databaseWelcome = require('../database/welcome');
 var databaseMusic = path.resolve(__dirname, '../database/music.json');
 
 function readPlaylist() {
+  var playlist = [];
   try {
     var database = fs.readFileSync(databaseMusic);
     database = util.parseJSON(database.toString()) || {};
-    return database.playlist || [];
+    playlist = database.playlist || [];
+    if (database.current) {
+      playlist.unshift(database.current)
+    }
   } catch (e) {}
-  return [];
+  return playlist;
 }
 
 router.get('/', function(req, res, next) {
