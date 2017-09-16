@@ -49,7 +49,7 @@ function writePlaylist(song) {
 }
 
 function recordSong(song) {
-  song.count = 1;
+  song.count = 0;
   try {
     var database = fs.readFileSync(databaseMusic);
     database = JSON.parse(database.toString()) || {};
