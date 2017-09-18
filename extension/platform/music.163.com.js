@@ -6,6 +6,7 @@ PLATFORM.Music163Com = function() {
 PLATFORM.Music163Com.prototype = {
   init: function() {
     if (!(window.parent !== window && window.location.href.indexOf('//music.163.com/search') > -1)) return;
+    if (window.top.location.search.indexOf('livetool') < 0) return;
     this.inject();
     this.play();
     this.switch();

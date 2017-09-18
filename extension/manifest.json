@@ -14,8 +14,7 @@
       "matches": ["<all_urls>"],
       "js": [
         "app.js",
-        "platform/music.163.com.js",
-        "platform/douyu.com.js"
+        "platform/music.163.com.js"
       ],
       "run_at": "document_start",
       "all_frames": true

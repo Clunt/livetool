@@ -1,8 +1,9 @@
 var LIVELOAD_DURATION = 5000;
 
 $(function() {
-  var music = new Music();
   var welcome = new Welcome();
+  var music = new Music();
+  var flag = new Flag();
   function liveload() {
     Util.ajax({
       url: '/api'
@@ -11,6 +12,7 @@ $(function() {
       if (err || !data) return;
       music.liveload(data);
       welcome.liveload(data);
+      flag.liveload(data);
     });
   }
 

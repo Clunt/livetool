@@ -1,4 +1,4 @@
-var ADMINISTRATORS = ['瓶瓶大仙儿'];
+var ADMINISTRATORS = ['Clantu', '瓶瓶大仙儿'];
 var REG_ADMINISTRATORS = new RegExp('^(' + ADMINISTRATORS.join('|') + ')：')
 
 PLATFORM.DouyuCom = function() {
@@ -8,6 +8,7 @@ PLATFORM.DouyuCom = function() {
 PLATFORM.DouyuCom.prototype = {
   init: function() {
     if (window.location.href.indexOf('//www.douyu.com/clantu') < 0) return;
+    if (window.location.search.indexOf('livetool') < 0) return;
     this.inject();
     setInterval(this.read.bind(this), 300);
     console.log('douyu.com: init');
@@ -28,9 +29,10 @@ PLATFORM.DouyuCom.prototype = {
   },
   parse: function(message) {
     message = message || this.lastMessage || '';
+    this.parseWelcome(message);
     this.parseMusic(message);
     this.parseSwitch(message);
-    this.parseWelcome(message);
+    this.parseFlag(message);
   },
   parseWelcome: function(message) {
     message = message || this.lastMessage || '';
@@ -61,18 +63,15 @@ PLATFORM.DouyuCom.prototype = {
     // if (!REG_ADMINISTRATORS.test(message)) return;
     var img = new Image();
     img.src = 'http://127.0.0.1:6688/music/switch?_t=' + Date.now();
+  },
+  parseFlag: function(message) {
+    message = message || this.lastMessage || '';
+    var match = message.match(/#flag([^#]+)#/);
+    var administratorMatch = message.match(/^([^：]+)：/);
+    if (!match ||  !administratorMatch) return;
+    var flag = (match[1] || '').trim();
+    var administrator = (administratorMatch[1] || '').trim();
+    var img = new Image();
+    img.src = 'http://127.0.0.1:6688/flag?_t=' + Date.now() + '&flag=' + encodeURIComponent(flag) + '&administrator=' + encodeURIComponent(administrator);
   }
 };
-
-// 获取歌单
-// var list = document.querySelectorAll('#auto-id-hnHP1W1H5TmJaf9v td .f-cb .tt .ttc .txt b')
-// var songs = [];
-// list.forEach(function(el) {
-//   var tr = el.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
-//   var singerNode = tr.querySelector('div.text span a');
-//   var song = [el.innerText];
-//   if (singerNode) {
-//     song.push(singerNode.innerText);
-//   }
-//   songs.push(song.join('-'))
-// });

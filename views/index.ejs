@@ -14,6 +14,12 @@
     <h2>欢迎大家来到直播间</h2>
     <h3>喜欢的话点波关注，谢谢大家</h3>
     <h4>每晚20:30准时开播，周末连播到爆炸</h4>
+    <div class="__tool">
+      <ul class="__tool__code">
+        <li>弹幕工具（自制，源代码参见Github）</li>
+        <li>使用格式如下方区域所示</li>
+      </ul>
+    </div>
     <div class="__contact">
       <table>
         <tr><td class="__contact__title">Github</td><td>Clunt</td></tr>
@@ -22,18 +28,26 @@
       </table>
     </div>
     <div class="app__music __tool">
-      <div class="__tool__title">弹幕点歌</div>
+      <div class="__tool__title">点歌</div>
       <ul class="__tool__code">
-        <li>弹幕格式如下：</li>
         <li>#点歌 歌名#</li>
         <li>#点歌 歌手#</li>
         <li>#点歌 歌名/歌手#</li>
         <li>#切歌#</li>
       </ul>
       <div class="__tool__main">
-        <div class="music__title">点歌列表</div>
         <ul class="music__playlist">
         </ul>
+      </div>
+    </div>
+    <div class="app__flag __tool">
+      <div class="__tool__title">Flag</div>
+      <ul class="__tool__code">
+        <li>#Flag 想看的内容#</li>
+      </ul>
+      <div class="__tool__main">
+        <table class="flag__list">
+        </table>
       </div>
     </div>
     <ul class="app__welcome"></ul>
@@ -42,6 +56,7 @@
   <script src="/javascripts/lib/util.js"></script>
   <script src="/javascripts/tool/welcome.js"></script>
   <script src="/javascripts/tool/music.js"></script>
+  <script src="/javascripts/tool/flag.js"></script>
   <script src="/javascripts/index.js"></script>
 </body>
 </html>
