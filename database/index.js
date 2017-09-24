@@ -102,6 +102,9 @@ exports.readSongList = function() {
 exports.cutSong = function(response, nickname, message) {
   database.song_cut = !!message.match(/#切歌#/);
 };
+exports._cutSong = function() {
+  database.song_cut = true;
+};
 exports.readSongCut = function() {
   var song_cut = database.song_cut;
   database.song_cut = false;
