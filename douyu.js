@@ -19,4 +19,8 @@ exports = module.exports = function() {
     database.writeSong(response, nickname, message);;
     database.cutSong(response, nickname, message);;
   });
+  live.on('gift', function(response) {
+    var nickname = response.body.nn.trim();
+    console.log('感谢', nickname, '送的礼物');
+  });
 };

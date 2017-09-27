@@ -1,7 +1,7 @@
 html,
 body{height: 100%;background: #fff;overflow: hidden;}
 h1{font-size: 36px;font-weight: normal;}
-h2{font-size: 20px;color: #666;font-weight: normal;}
+h2{font-size: 20px;font-weight: normal;}
 h3{font-size: 14px;color: #666;font-weight: normal;}
 h4{font-size: 12px;color: #999;font-weight: normal;}
 
@@ -25,8 +25,8 @@ h4{font-size: 12px;color: #999;font-weight: normal;}
 .app__welcome li{position: fixed;z-index: 999;bottom: 12px;left: 240px;padding: 9px 12px;font-size: 18px;color: #666;line-height: 1;background: #fff;white-space: nowrap;border-radius: 3px;}
   .app__welcome li b{margin: 0 6px;font-size: 24px;color: #D84C31;}
 
-.__contact{position: fixed;left: 0;bottom: 0;width: 100%;padding: 6px 12px;background: #fff;}
+.__contact{position: fixed;left: 0;bottom: 0;width: 100%;padding: 6px;background: #fff;}
   .__contact table{width: 100%;font-size: 16px;}
-    .__contact td{padding: 3px;}
+    .__contact td{padding: 0;}
     .__contact .__contact__title{width: 110px;font-weight: bold;text-align: right;}
       .__contact .__contact__title:after{content: ':';}
