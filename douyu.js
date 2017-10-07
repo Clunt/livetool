@@ -14,6 +14,7 @@ exports = module.exports = function() {
     var nickname = response.body.nn.trim();
     var message = response.body.txt.trim();
     console.log(nickname + ':', message);
+    message = message.replace(/＃/g, '#');
     // 记录
     database.writeFlag(response, nickname, message);;
     database.writeSong(response, nickname, message);;
