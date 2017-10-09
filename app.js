@@ -5,15 +5,12 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var douyu = require('./douyu');
-
 var index = require('./routes/index');
 var music = require('./routes/music');
 
 var app = express();
 
 // 获取斗鱼弹幕
-douyu();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

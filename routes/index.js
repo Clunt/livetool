@@ -4,7 +4,12 @@ var router = express.Router();
 var database = require('../database');
 
 router.get('/', function(req, res, next) {
+  // res.render('danmu');
   res.render('index');
+});
+
+router.get('/danmu', function(req, res, next) {
+  res.render('danmu');
 });
 
 router.get('/api', function(req, res, next) {
