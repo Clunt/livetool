@@ -4,22 +4,11 @@ const config = require('./config');
 
 
 exports = module.exports = function(io) {
-  var live = new Live(config.room_id);
   io.of('/danmu').on('connection', (socket) => {
-    socket.on('disconnect', function(argument) {
-      console.log(argument)
-    })
-    if (live.inited) {
-      try {
-      socket.emit('douyu', JSON.stringify({
-        message: 'login success',
-        m: '登陆成功'
-      }));
-    } catch(e) {
-      console.log(e)
-    }
-    }
+    socket.emit('douyu', '登陆成功');
   });
+  return;
+  var live = new Live(config.room_id);
   live.on('welcome', function(response) {
     var nickname = response.body.nn.trim();
     console.log('欢迎', nickname);

@@ -4,11 +4,11 @@
  * Module dependencies.
  */
 
+var http = require('http');
 var app = require('../app');
 var socket = require('../socket');
 var douyu = require('../douyu');
 var debug = require('debug')('livetool:server');
-var http = require('http');
 
 /**
  * Get port from environment and store in Express.
