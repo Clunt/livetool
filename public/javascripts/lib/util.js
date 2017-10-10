@@ -41,3 +41,10 @@ Util.ajax = function(option, callback) {
   };
   return $.ajax(ajaxOption);
 };
+
+
+Util.copy = function(obj) {
+  try {
+    return JSON.parse(JSON.stringify(obj));
+  } catch(e) {}
+};

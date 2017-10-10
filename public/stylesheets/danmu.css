@@ -1,0 +1,10 @@
+html, body{height: 100%;overflow: hidden;background: #212121;color: #ccc;}
+.danmu{position: fixed;top: 0;left: 0;bottom: 0;right: 0;overflow: hidden;}
+  .danmu__welcomes{}
+  .danmu__messages{position: absolute;left: 0;bottom: 0;width: 68%;padding: 6px 12px;font-size: 16px;line-height: 24px;}
+  .danmu__gifts{position: absolute;right: 0;bottom: 32px;width: 32%;padding: 6px 12px;font-size: 16px;line-height: 24px;}
+  .danmu__logs{position: absolute;right: 0;bottom: 8px;width: 32%;height: 16px;overflow: hidden;padding-right: 64px;font-size: 12px;line-height: 16px;color: #666;}
+  .danmu__state{position: absolute;position: absolute;bottom: 6px;right: 12px;padding: 0 6px;font-size: 12px;line-height: 20px;color: #fff;border-radius: 10px;}
+    .danmu__state.danmu__state--login{background: #32CD32;}
+    .danmu__state.danmu__state--online{background: #4285F4;}
+    .danmu__state.danmu__state--offline{background: #FE4C40;}

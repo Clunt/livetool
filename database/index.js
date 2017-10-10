@@ -5,6 +5,7 @@ var config = require('../config');
 
 var permission = 4;
 var DEFAULT_SONG = '临安初雨';
+var databaseRecord = path.resolve(__dirname, './record.json');
 var databaseFlag = path.resolve(__dirname, './flag.json');
 var databaseMusic = path.resolve(__dirname, './music.json');
 var database = {
@@ -12,6 +13,25 @@ var database = {
   song_list: [],
   song_cut: false
 };
+
+function readDatabase(path, callback) {
+  try {
+    var data = fs.readFileSync(path);
+    callback(util.parseJSON(data) || {});
+  } catch (e) {}
+}
+function writeDatabase(path, callback) {
+  try {
+    var data = fs.readFileSync(path);
+    var database = util.parseJSON(data) || {};
+    callback(function(database) {
+      try {
+        if (typeof database !== 'object') return;
+        fs.writeFileSync(path, JSON.stringify(database));
+      } catch(e) {}
+    }, database);
+  } catch (e) {}
+}
 
 exports = module.exports = database;
 
@@ -112,14 +132,43 @@ exports.readSongCut = function() {
 };
 exports.recordSong = function(song) {
   song.count = 0;
-  try {
-    var database = fs.readFileSync(databaseMusic);
-    database = JSON.parse(database.toString()) || {};
+  writeDatabase(databaseMusic, function(save, database) {
     database.current = song.name;
     database.playlist = database.playlist || [];
     var store = database.store;
     store[song.id] = store[song.id] || song;
     store[song.id].count += 1;
-    fs.writeFileSync(databaseMusic, JSON.stringify(database));
-  } catch (e) {}
+    save(database);
+  });
+};
+exports.recordGift = function(uid, name) {
+  if (!uid) return;
+  writeDatabase(databaseRecord, function(save, database) {
+    database.gift = database.gift || {};
+    database.gift[uid] = database.gift[uid] || 0;
+    database.gift[uid] += 1;
+    save(database);
+  });
+};
+exports.recordUser = function(uid, name) {
+  if (!uid) return;
+  writeDatabase(databaseRecord, function(save, database) {
+    database.user = database.user || {};
+    database.user[uid] = database.user[uid] || {
+      times: 0,
+      names: []
+    };
+    database.user[uid].times += 1;
+    if (database.user[uid].names.indexOf(name) < 0) {
+      database.user[uid].names.push(name);
+    }
+    save(database);
+  });
+};
+exports.getUser = function(uid, callback) {
+  if (!uid) return;
+  readDatabase(databaseRecord, function(database) {
+    database.user = database.user || {};
+    callback(!!database.user[uid]);
+  });
 };
