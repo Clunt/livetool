@@ -5,64 +5,27 @@
   <meta name="viewport" content="user-scalable=no">
   <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
   <title>斗鱼直播工具</title>
-  <link rel="stylesheet" href="/stylesheets/normalize.css" />
-  <link rel="stylesheet" href="/stylesheets/tool.css" />
+  <link rel="stylesheet" href="/library/stylesheets/normalize.css" />
+  <link rel="stylesheet" href="/modules/tool/side/index.css" />
+  <link rel="stylesheet" href="/modules/tool/danmu/index.css" />
+  <link rel="stylesheet" href="/modules/tool/app.css" />
 </head>
 <body>
-  <div class="app">
-    <!-- <h1>Clantu</h1> -->
-    <h2>欢迎来看Clantu直播</h2>
-    <h3>喜欢的话点波关注，谢谢大家</h3>
-    <h4>每晚20:30准时开播，周末连播到爆炸</h4>
-    <!--
-    <div class="__tool">
-      <ul class="__tool__code">
-        <li>弹幕工具（自制，源代码参见Github）</li>
-        <li>使用格式如下方区域所示</li>
-      </ul>
-    </div>
-     -->
-    <div class="__contact">
-      <table>
-        <tr>
-          <td class="__contact__title">Github</td><td>Clunt</td>
-          <td class="__contact__title">Q群</td><td>334022534</td>
-          <!-- <td class="__contact__title">微信</td><td>15022651939</td> -->
-        </tr>
-      </table>
-    </div>
-    <div class="app__music __tool">
-      <div class="__tool__title">点歌</div>
-      <ul class="__tool__code">
-        <!--
-        <li>#点歌 歌名#</li>
-        <li>#点歌 歌手#</li>
-         -->
-        <li>#点歌 歌名/歌手#</li>
-        <li>#切歌#</li>
-      </ul>
-      <div class="__tool__main">
-        <ul class="music__playlist">
-        </ul>
-      </div>
-    </div>
-    <div class="app__flag __tool">
-      <div class="__tool__title">Flag（房管）</div>
-      <ul class="__tool__code">
-        <li>#Flag 想看的内容#</li>
-      </ul>
-      <div class="__tool__main">
-        <table class="flag__list">
-        </table>
-      </div>
-    </div>
-    <ul class="app__welcome"></ul>
-  </div>
-  <script src="/javascripts/lib/jquery.js"></script>
-  <script src="/javascripts/lib/util.js"></script>
-  <script src="/javascripts/tool/welcome.js"></script>
-  <script src="/javascripts/tool/music.js"></script>
-  <script src="/javascripts/tool/flag.js"></script>
-  <script src="/javascripts/tool/index.js"></script>
+  <div id="app"></div>
+  <div id="app2"></div>
+  <script src="/library/javascripts/jquery.js"></script>
+  <script src="/library/javascripts/react.js"></script>
+  <script src="/library/javascripts/react-dom.js"></script>
+  <script src="/library/javascripts/create-react-class.js"></script>
+  <script src="/library/javascripts/util.js"></script>
+  <script src="/library/javascripts/socket.io.js"></script>
+
+  <script src="/modules/tool/config.js"></script>
+  <script src="/modules/tool/danmu/index.js"></script>
+
+  <script src="/modules/tool/side/flag.js"></script>
+  <script src="/modules/tool/side/music.js"></script>
+  <script src="/modules/tool/side/index.js"></script>
+  <script src="/modules/tool/app.js"></script>
 </body>
 </html>

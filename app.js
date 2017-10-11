@@ -7,10 +7,13 @@ var bodyParser = require('body-parser');
 
 global.LOGGER = require('./logger');
 
+var douyu = require('./douyu');
+
 var index = require('./routes/index');
 var music = require('./routes/music');
 
 var app = express();
+douyu();
 
 // 获取斗鱼弹幕
 

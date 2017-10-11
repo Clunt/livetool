@@ -1,7 +1,6 @@
 var LIVELOAD_DURATION = 5000;
 
 $(function() {
-  var welcome = new Welcome();
   var music = new Music();
   var flag = new Flag();
   function liveload() {

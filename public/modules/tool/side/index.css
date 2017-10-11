@@ -1,0 +1,25 @@
+.tool__side{position: absolute;top: 0;left: 0;width: 360px;height: 100%;}
+  .tool__side .side__header{position: relative;height: 100px;padding: 12px;}
+    .tool__side .side__header .header__title{font-size: 36px;}
+    .tool__side .side__header .header__info{font-size: 16px;color: #666;}
+    .tool__side .side__header .header__highlight{position: absolute;top: 28px;right: 6px;padding: 0 9px;background: #D84C31;font-size: 12px;color: #fff;line-height: 24px;border-radius: 12px;}
+  .tool__side .side__footer{position: relative;height: 80px;}
+    .tool__side .side__footer .footer__contact{position: absolute;left: 0;bottom: 0;width: 100%;padding: 12px;overflow: hidden;font-size: 16px;}
+      .tool__side .side__footer .footer__contact dl{float: left;width: 50%;}
+      .tool__side .side__footer .footer__contact dt,
+      .tool__side .side__footer .footer__contact dd{display: inline-block;}
+      .tool__side .side__footer .footer__contact dt{margin-right: 3px;font-weight: bold;}
+        .tool__side .side__footer .footer__contact dt:after{content: ':';}
+  .tool__side .side__content{position: relative;height: 900px;overflow: auto;}
+    .tool__side .side__content .content__box{margin: 12px;padding-bottom: 12px;border-bottom: 1px solid #eee;}
+      .tool__side .side__content .content__box .content__box__title{font-size: 30px;}
+      .tool__side .side__content .content__box .content__box__code{margin: 6px 0 12px;padding: 6px;background: #eee;border: 1px solid #ddd;border-radius: 3px;}
+      .tool__side .side__content .content__box .content__box__main{overflow: auto;}
+    .tool__side .side__content .content__music{}
+      .tool__side .side__content .content__music .content__box__main{max-height: 360px;}
+      .tool__side .side__content .content__music .music__playlist{font-size: 24px;font-style: italic;padding-top: 12px;color: #999;}
+      .tool__side .side__content .content__music .music__playlist li:first-child{color: #4285F4;}
+      .tool__side .side__content .content__music .music__playlist li.empty{margin: 12px 24px 0;padding-top: 6px;border-top: 1px dashed #f6f6f6;font-size: 12px;font-style: normal;text-align: center;}
+    .tool__side .side__content .content__flag{}
+      .tool__side .side__content .content__flag .flag__list{width: 100%;font-size: 24px;margin-top: 12px;}
+        .tool__side .side__content .content__flag .flag__list .count{text-align: right;font-style: italic;font-size: 18px;}

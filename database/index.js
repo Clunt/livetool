@@ -169,6 +169,6 @@ exports.getUser = function(uid, callback) {
   if (!uid) return;
   readDatabase(databaseRecord, function(database) {
     database.user = database.user || {};
-    callback(!!database.user[uid]);
+    callback(database.user[uid]);
   });
 };
