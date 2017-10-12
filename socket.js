@@ -11,15 +11,9 @@ function Socket(server) {
 Socket.prototype.create = function (server) {
   if (this.io || !server) return;
   this.io = SocketIO(server);
-  this.io.of('/').on('connection', (socket) => {
+  this.io.on('connection', (socket) => {
     this.emitter.emit('connection', '/', socket);
   });
-  this.io.of('/admin').on('connection', (socket) => {
-    this.emitter.emit('connection', '/admin', socket);
-  });
-};
-
-Socket.prototype.emit = function () {
 };
 
 Socket.prototype.getIO = function(callback) {

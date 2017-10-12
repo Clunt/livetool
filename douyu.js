@@ -8,7 +8,7 @@ const socket = require('./socket')();
 exports = module.exports = function() {
   var live = new Live(config.room_id);
   socket.emitter.on('connection', (nsp, socket) => {
-    if (nsp === '/' && live.inited) {
+    if (live.inited) {
       socket.emit('login', {
         message: '登陆成功',
         room_id: live.room_id,
@@ -56,12 +56,12 @@ exports = module.exports = function() {
   live.on('message', function(response) {
     var type = response.body.type;
     socket.getIO((io) => {
-      io.of('/a').emit('danmu', {
+      io.emit('danmu', {
         type: 'log',
         response: response
       });
       if (type === 'loginres') {
-        io.of('/a').emit('login', {
+        io.emit('login', {
           message: '登陆成功',
           room_id: live.room_id,
           room: live.room

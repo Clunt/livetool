@@ -1,11 +1,13 @@
 // TODO:
 // 1. 进场提示
 // 2. 语音欢迎
+var DANMU_USER_PERMISSION = {
+  4: '房管',
+  5: '主播'
+};
 var DanmuComponent = createReactClass({
   getInitialState: function() {
     return {
-      login: false,
-      online: false,
       welcomes: [],
       messages: [],
       gifts: [],
@@ -13,71 +15,87 @@ var DanmuComponent = createReactClass({
     };
   },
   componentDidMount: function() {
-    // this.createSocket();
+    this.props.socket.on('danmu', function(data) {
+      var type = data.type;
+      switch (data.type) {
+        case 'welcome':
+          this.welcome(data);
+          break;
+        case 'chat':
+          this.chat(data);
+          break;
+        case 'gift':
+          this.gift(data);
+          break;
+        case 'log':
+          this.log(data);
+          break;
+      }
+    }.bind(this));
   },
-  createSocket: function() {
-    var socket = io('/danmu');
-    socket.on('connect', this.online);
-    socket.on('reconnect', this.online);
-    socket.on('disconnect', this.offline);
-
-    socket.on('douyu', this.login);
-    socket.on('welcome', this.welcome);
-    socket.on('chat', this.chat);
-    socket.on('gift', this.gift);
-    socket.on('log', this.log);
-  },
-  online: function() {
-    this.setState({
-      online: true
-    });
-  },
-  offline: function() {
-    this.setState({
-      online: false
-    });
-  },
-  login: function() {
-    this.setState({
-      login: true
-    });
-  },
-  welcome: function(response, exist) {
+  welcome: function(data) {
+    var user = data.user;
+    var response = data.response;
     var body = response.body;
-    var message = ['欢迎 ', (body.bnn ? '[' + body.bnn + ']' : ''), body.nn, ' ', (exist ? '回' : '来'), '到直播间'].join('');
+    var nickname = body.nn;
+    if (user) {
+      var names = user.names;
+      if (names.indexOf(nickname) < 0) {
+        nickname += '(' + names[names.length - 1] + ')';
+      }
+    }
     // TODO: 横幅滚屏
     this.setState(function(prevState) {
-      var messages = Util.copy(prevState.messages);
-      messages.push(message);
+      var messages = Util.copy(prevState.messages) || [];
+      messages.push({
+        type: 'welcome',
+        nickname: nickname,
+        body: body,
+        user: user,
+        raw: response.raw
+      });
       return {
-        messages: messages.slice(messages.length - 20)
+        messages: this.props.admin ? messages : messages.slice(messages.length - 20)
       };
     });
   },
-  gift: function(response) {
+  gift: function(data) {
+    var response = data.response;
     var body = response.body;
     // TODO: 横幅滚屏
-    var message = ['感谢 ', body.nn, ' 送的礼物'].join('');
     this.setState(function(prevState) {
       var gifts = Util.copy(prevState.gifts);
-      gifts.push(message);
+      gifts.push({
+        nickname: body.nn,
+        body: body,
+        raw: response.raw
+      });
       return {
-        gifts: gifts.slice(gifts.length - 20)
+        messages: this.props.admin ? messages : messages.slice(messages.length - 20)
       };
     });
   },
-  chat: function(response) {
+  chat: function(data) {
+    var response = data.response;
     var body = response.body;
-    var message = [body.nn.trim(), body.txt.trim()].join(': ');
     this.setState(function(prevState) {
       var messages = Util.copy(prevState.messages);
-      messages.push(message);
+      messages.push({
+        type: 'chat',
+        nickname: body.nn,
+        danmu: body.txt,
+        nameplate: body.bnn,
+        permission: body.rg,
+        body: body,
+        raw: response.raw
+      });
       return {
-        messages: messages.slice(messages.length - 20)
+        messages: this.props.admin ? messages : messages.slice(messages.length - 20)
       };
     });
   },
-  log: function(response) {
+  log: function(data) {
+    var response = data.response;
     var body = response.body;
     var message = [body.type.trim()].join(' ');
     this.setState(function(prevState) {
@@ -88,47 +106,72 @@ var DanmuComponent = createReactClass({
       };
     });
   },
-  render: function() {
-    // var messageNode = React.createElement('ul', {
-    //   className: 'danmu__messages'
-    // }, this.state.messages.map(function(msg, index) {
-    //   return React.createElement('li', {
-    //     key: index,
-    //     className: 'messages__item'
-    //   }, msg);
-    // }));
-    // var welcomeNode = React.createElement('ul', {
-    //   className: 'danmu__welcome'
-    // }, this.state.welcomes.map(function(msg, index) {
-    //   return React.createElement('li', {
-    //     key: index,
-    //     className: 'welcome__item'
-    //   }, msg);
-    // }));
-    // var giftNode = React.createElement('ul', {
-    //   className: 'danmu__gifts'
-    // }, this.state.gifts.map(function(msg, index) {
-    //   return React.createElement('li', {
-    //     key: index,
-    //     className: 'gifts__item'
-    //   }, msg);
-    // }));
-    // var logNode = React.createElement('ul', {
-    //   className: 'danmu__logs'
-    // }, this.state.logs.map(function(msg, index) {
-    //   return React.createElement('li', {
-    //     key: index,
-    //     className: 'logs__item'
-    //   }, msg);
-    // }));
-    // var stateNode = React.createElement('span', {
-    //   className: [
-    //     'danmu__state',
-    //     this.state.online ? (this.state.login ? 'danmu__state--login' : 'danmu__state--online') : 'danmu__state--offline'
-    //   ].join(' ')
-    // }, this.state.online ? (this.state.login ? '在线' : '离开') : '离线');
-    return React.createElement('div', {
-      className: 'tool__danmu'
+  renderWelcomes: function() {
+    // TODO
+    return createElement('div', {
+      className: 'danmu__welcomes'
     });
+  },
+  renderGifts: function() {
+    return createElement('div', {
+      className: 'danmu__gifts'
+    }, this.state.gifts.map(function(item, index) {
+      var message = ['感谢 ', item.nickname, ' 送的礼物'].join('');
+      return React.createElement('li', {
+        key: index,
+        className: 'gifts__item'
+      }, message);
+    }));
+  },
+  renderMessages: function() {
+    return createElement('div', {
+      className: 'danmu__messages'
+    }, this.state.messages.map(function(item, index) {
+      var message = '';
+      switch (item.type) {
+        case 'welcome':
+          message = ['欢迎 ', item.nickname, ' ', (item.user ? '回' : '来'), '到直播间'].join('');
+          break;
+        case 'chat':
+          var nickname = item.nickname;
+          var danmu = item.danmu;
+          var nameplate = item.nameplate ? '[' + item.nameplate + ']' : '';
+          var permission = DANMU_USER_PERMISSION[item.permission]
+          if (permission) {
+            permission = '[' + permission + ']';
+          }
+          message = [permission, nameplate, ' ', nickname, ': ', danmu].join('');
+          break;
+        default:
+          return;
+      }
+      return React.createElement('li', {
+        key: index,
+        className: 'messages__item messages__item--' + item.type
+      }, message);
+    }));
+  },
+  renderLogs: function() {
+    return createElement('div', {
+      className: 'danmu__logs'
+    }, this.state.logs.map(function(msg, index) {
+      return React.createElement('li', {
+        key: index,
+        className: 'logs__item'
+      }, msg);
+    }));
+  },
+  render: function() {
+    return React.createElement('div', {
+        className: 'tool__danmu'
+      },
+      this.renderWelcomes(),
+      this.renderGifts(),
+      this.renderMessages(),
+      this.renderLogs(),
+      createElement('div', {
+        className: 'danmu__state danmu__state--' + this.props.state
+      }, ['离线', '连接中', '在线'][this.props.state])
+    );
   }
 });
