@@ -1,0 +1,28 @@
+.tool__side{position: absolute;top: 0;left: 0;width: 360px;height: 100%;}
+  .tool__side .side__header{position: relative;height: 100px;padding: 12px;}
+    .tool__side .side__header .header__title{font-size: 36px;}
+    .tool__side .side__header .header__info{font-size: 16px;color: #666;}
+    .tool__side .side__header .header__highlight{position: absolute;top: 24px;right: 12px;padding: 0 9px;background: #D84C31;font-size: 12px;color: #fff;line-height: 24px;border-radius: 12px;}
+  .tool__side .side__footer{position: relative;height: 80px;}
+    .tool__side .side__footer .footer__contact{position: absolute;left: 0;bottom: 0;width: 100%;padding: 12px;overflow: hidden;font-size: 16px;}
+      .tool__side .side__footer .footer__contact dl{float: left;width: 50%;}
+      .tool__side .side__footer .footer__contact dt,
+      .tool__side .side__footer .footer__contact dd{display: inline-block;}
+      .tool__side .side__footer .footer__contact dt{margin-right: 3px;font-weight: bold;}
+        .tool__side .side__footer .footer__contact dt:after{content: ':';}
+  .tool__side .side__content{position: relative;height: 900px;overflow-x: hidden;overflow-y: auto;}
+    .tool__side .side__content .content__box{margin: 12px;padding-bottom: 12px;border-bottom: 1px solid #eee;}
+      .tool__side .side__content .content__box .content__box__title{font-size: 30px;}
+      .tool__side .side__content .content__box .content__box__code{margin: 6px 0 12px;padding: 6px;background: #eee;border: 1px solid #ddd;border-radius: 3px;}
+      .tool__side .side__content .content__box .content__box__main{overflow-x: hidden;overflow-y: auto;}
+    .tool__side .side__content .content__music{}
+      .tool__side .side__content .content__music .content__box__main{max-height: 360px;}
+      .tool__side .side__content .content__music .music__playlist{margin-top: 6px;font-size: 22px;color: #999;line-height: 30px;word-break: break-all;}
+      .tool__side .side__content .content__music .music__playlist li{margin-bottom: 6px;}
+      .tool__side .side__content .content__music .music__playlist li:first-child{margin-bottom: 12px;font-style: italic;color: #4285F4;}
+      .tool__side .side__content .content__music .music__playlist li.empty{margin: 12px 24px 0;padding-top: 6px;border-top: 1px dashed #f6f6f6;font-size: 12px;font-style: normal;text-align: center;}
+    .tool__side .side__content .content__flag{}
+      .tool__side .side__content .content__flag .flag__list{margin-top: 6px;font-size: 22px;line-height: 30px;}
+        .tool__side .side__content .content__flag .flag__list li{position: relative;min-height: 30px;margin-bottom: 6px;}
+          .tool__side .side__content .content__flag .flag__list li div{padding-right: 64px;word-break: break-all;}
+          .tool__side .side__content .content__flag .flag__list li span{position: absolute;top: 0;right: 6px;text-align: right;font-style: italic;font-size: 18px;}

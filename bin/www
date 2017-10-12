@@ -7,7 +7,6 @@
 var http = require('http');
 var app = require('../app');
 var socket = require('../socket');
-var douyu = require('../douyu');
 var debug = require('debug')('livetool:server');
 
 /**
@@ -22,8 +21,7 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
-var _socket = socket(server);
-douyu(_socket.io);
+socket(server);
 /**
  * Listen on provided port, on all network interfaces.
  */
