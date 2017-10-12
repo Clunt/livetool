@@ -71,7 +71,7 @@ var DanmuComponent = createReactClass({
         raw: response.raw
       });
       return {
-        messages: this.props.admin ? messages : messages.slice(messages.length - 20)
+        gifts: this.props.admin ? gifts : gifts.slice(gifts.length - 20)
       };
     });
   },

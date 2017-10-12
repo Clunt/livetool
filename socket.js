@@ -8,7 +8,7 @@ function Socket(server) {
   this.io = null;
 }
 
-Socket.prototype.create = function (server) {
+Socket.prototype.create = function(server) {
   if (this.io || !server) return;
   this.io = SocketIO(server);
   this.io.on('connection', (socket) => {

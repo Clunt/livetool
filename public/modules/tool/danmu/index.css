@@ -1,8 +1,7 @@
 .tool__danmu{position: absolute;bottom: 0;right: 0;width: 1560px;height: 105px;overflow: hidden;background: #212121;color: #ccc;}
-.tool__danmu{bottom: auto;top: 0;right: auto;left: 0;}
   .tool__danmu .danmu__welcomes{}
   .tool__danmu .danmu__messages{position: absolute;left: 0;bottom: 0;width: 68%;padding: 6px 12px;font-size: 16px;line-height: 24px;}
-  .tool__danmu .danmu__gifts{position: absolute;right: 0;bottom: 32px;width: 32%;padding: 6px 12px;font-size: 16px;line-height: 24px;}
+  .tool__danmu .danmu__gifts{position: absolute;right: 0;bottom: 32px;width: 32%;padding: 6px 12px 6px 0;font-size: 12px;line-height: 16px;}
   .tool__danmu .danmu__logs{position: absolute;right: 0;bottom: 8px;width: 32%;height: 16px;overflow: hidden;padding-right: 64px;font-size: 12px;line-height: 16px;color: #666;}
   .tool__danmu .danmu__state{position: absolute;position: absolute;bottom: 9px;right: 12px;padding: 0 6px;font-size: 12px;line-height: 20px;color: #fff;border-radius: 10px;}
     .tool__danmu .danmu__state.danmu__state--0{background: #FE4C40;}

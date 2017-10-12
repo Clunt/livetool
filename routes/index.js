@@ -14,11 +14,7 @@ router.get('/danmu', function(req, res, next) {
 
 router.get('/api', function(req, res, next) {
   // 获取当前歌曲
-  res.json([0, '', {
-    welcome: database.readWelcome(),
-    playlist: database.readSongList(),
-    flaglist: database.readFlag()
-  }])
+  res.json([0, '', {}])
 });
 
 module.exports = router;

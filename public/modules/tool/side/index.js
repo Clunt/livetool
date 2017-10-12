@@ -1,6 +1,3 @@
-// TODO:
-// 1. 进场提示
-// 2. 语音欢迎
 var createElement = React.createElement;
 var SideComponent = createReactClass({
   renderHeader: function() {
@@ -20,15 +17,15 @@ var SideComponent = createReactClass({
       }))
     );
   },
-  renderContentMusic: function() {
-  },
   renderContent: function() {
     return createElement('div', { className: 'side__content' },
       createElement(SideMusicComponent, {
-        data: this.props.data
+        socket: this.props.socket,
+        admin: this.props.admin
       }),
       createElement(SideFlagComponent, {
-        data: this.props.data
+        socket: this.props.socket,
+        admin: this.props.admin
       })
     );
   },
