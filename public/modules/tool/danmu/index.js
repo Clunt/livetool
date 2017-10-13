@@ -1,10 +1,6 @@
 // TODO:
 // 1. 进场提示
 // 2. 语音欢迎
-var DANMU_USER_PERMISSION = {
-  4: '房管',
-  5: '主播'
-};
 var DanmuComponent = createReactClass({
   getInitialState: function() {
     return {
@@ -115,13 +111,56 @@ var DanmuComponent = createReactClass({
   renderGifts: function() {
     return createElement('div', {
       className: 'danmu__gifts'
-    }, this.state.gifts.map(function(item, index) {
-      var message = ['感谢 ', item.nickname, ' 送的礼物'].join('');
-      return React.createElement('li', {
-        key: index,
-        className: 'gifts__item'
-      }, message);
-    }));
+    },
+      createElement('div', {
+        className: 'gifts__inner'
+      },
+        this.state.gifts.map(function(item, index) {
+          return React.createElement('li', {
+            key: index,
+            className: 'gifts__item'
+          }, '感谢', createElement('span', {
+            className: 'item__nickname'
+          }, item.nickname), '送的礼物');
+        })
+      )
+    );
+  },
+  renderMessageWelcom: function(item, index) {
+    return React.createElement('li', {
+      key: index,
+      className: 'messages__item messages__item--' + item.type
+    }, '欢迎', createElement('span', {
+      className: 'item__nickname'
+    }, item.nickname), (item.user ? '回' : '来') + '到直播间');
+  },
+  renderMessageChat: function(item, index) {
+    var permission = Config.danmu.permissions[item.permission];
+    var nickname = item.nickname;
+    var nameplate = item.nameplate;
+    var permissionNode = permission ? createElement('span', {
+      className: 'item__permission'
+    } , '[' + permission + ']') : null;
+    var nameplateNode = nameplate ? createElement('span', {
+      className: 'item__nameplate' + (Number(item.body.brid) === Config.room ? ' item__nameplate--family' : '')
+    }, '[' + nameplate + ']') : null;
+    var nicknameNode = createElement('span', {
+      className: 'item__nickname'
+    } , nickname + ':');
+    var danmuNode = item.danmu.split(/(\[emot:[^\]]+\])/).map(function(item, index) {
+      if (/^\[emot\:dy\d+\]$/.test(item)) {
+        var id = item.match(/dy\d+/)[0];
+        return createElement('img', {
+          key: index,
+          src: Config.danmu.emojis(id)
+        });
+      }
+      return item;
+    });
+    return React.createElement('li', {
+      key: index,
+      className: 'messages__item messages__item--' + item.type
+    }, permissionNode, nameplateNode, nicknameNode, danmuNode);
   },
   renderMessages: function() {
     return createElement('div', {
@@ -130,26 +169,12 @@ var DanmuComponent = createReactClass({
       var message = '';
       switch (item.type) {
         case 'welcome':
-          message = ['欢迎 ', item.nickname, ' ', (item.user ? '回' : '来'), '到直播间'].join('');
-          break;
+          return this.renderMessageWelcom(item, index);
         case 'chat':
-          var nickname = item.nickname;
-          var danmu = item.danmu;
-          var nameplate = item.nameplate ? '[' + item.nameplate + ']' : '';
-          var permission = DANMU_USER_PERMISSION[item.permission]
-          if (permission) {
-            permission = '[' + permission + ']';
-          }
-          message = [permission, nameplate, ' ', nickname, ': ', danmu].join('');
+          return this.renderMessageChat(item, index);
           break;
-        default:
-          return;
       }
-      return React.createElement('li', {
-        key: index,
-        className: 'messages__item messages__item--' + item.type
-      }, message);
-    }));
+    }.bind(this)));
   },
   renderLogs: function() {
     return createElement('div', {

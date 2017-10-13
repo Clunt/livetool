@@ -2,7 +2,6 @@
 const fs = require('fs');
 const path = require('path');
 const util = require('../lib/util');
-const config = require('../config');
 const socket = require('../socket')();
 const log = LOGGER('database');
 
