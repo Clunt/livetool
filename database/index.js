@@ -100,6 +100,7 @@ exports.recordUser = function(uid, name) {
       names: []
     };
     database.user[uid].times += 1;
+    database.user[uid].timestamp = Date.now();
     if (database.user[uid].names.indexOf(name) < 0) {
       database.user[uid].names.push(name);
     }

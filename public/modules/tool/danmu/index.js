@@ -1,10 +1,28 @@
 // TODO:
-// 1. 进场提示
-// 2. 语音欢迎
+// 1. 语音播报队列
+var SPEAD_LIST = [];
+
+// 选填  语速，取值0-9，默认为5中语速
+var VOICE_SPD = [{value: '0', text: '0'}, {value: '1', text: '1'}, {value: '2', text: '2'}, {value: '3', text: '3'}, {value: '4', text: '4'}, {value: '5', text: '5'}, {value: '6', text: '6'}, {value: '7', text: '7'}, {value: '8', text: '8'}, {value: '9', text: '9'}];
+// 选填  音调，取值0-9，默认为5中语调
+var VOICE_PIT = [{value: '0', text: '0'}, {value: '1', text: '1'}, {value: '2', text: '2'}, {value: '3', text: '3'}, {value: '4', text: '4'}, {value: '5', text: '5'}, {value: '6', text: '6'}, {value: '7', text: '7'}, {value: '8', text: '8'}, {value: '9', text: '9'}];
+// 选填  音量，取值0-15，默认为5中音量
+var VOICE_VOL = [{value: '0', text: '0'}, {value: '1', text: '1'}, {value: '2', text: '2'}, {value: '3', text: '3'}, {value: '4', text: '4'}, {value: '5', text: '5'}, {value: '6', text: '6'}, {value: '7', text: '7'}, {value: '8', text: '8'}, {value: '9', text: '9'}, {value: '10', text: '10'}, {value: '11', text: '11'}, {value: '12', text: '12'}, {value: '13', text: '13'}, {value: '14', text: '14'}, {value: '15', text: '15'}];
+// 选填  发音人选择, 0为普通女声，1为普通男生，3为情感合成-度逍遥，4为情感合成-度丫丫，默认为普通女声
+var VOICE_PER = [{value: '0', text: '普通女声'}, {value: '1', text: '普通男生'}, {value: '3', text: '度逍遥'}, {value: '4', text: '度丫丫'} ];
+
 var createElement = React.createElement;
 var DanmuComponent = createReactClass({
   getInitialState: function() {
     return {
+      adminVoiceVisible: false,
+      adminAutoscrollVisible: false,
+      baiduVoice: true,
+      voiceSpd: '5', // 选填  语速，取值0-9，默认为5中语速
+      voicePit: '5', // 选填  音调，取值0-9，默认为5中语调
+      voiceVol: '5', // 选填  音量，取值0-15，默认为5中音量
+      voicePer: '4', // 选填  发音人选择, 0为普通女声，1为普通男生，3为情感合成-度逍遥，4为情感合成-度丫丫，默认为普通女声
+
       voiceWelcome: false,
       voiceChat: false,
       messagesLocked: false,
@@ -52,10 +70,10 @@ var DanmuComponent = createReactClass({
   gift: function(data) {
     var response = data.response;
     var body = response.body;
-    // TODO: 横幅滚屏
     this.setState(function(prevState) {
       var gifts = Util.copy(prevState.gifts);
       gifts.push({
+        key: Date.now(),
         nickname: body.nn,
         body: body,
         raw: response.raw
@@ -77,12 +95,26 @@ var DanmuComponent = createReactClass({
       }
     }
     if (this.state.voiceWelcome) {
-      this.speak('欢迎' + nickname + '来到直播间');
+      this.speak('欢迎' + nickname + (user ? '回' : '来') + '到直播间');
     }
-    // TODO: 横幅滚屏
+    this.setState(function(prevState) {
+      var welcomes = Util.copy(prevState.welcomes) || {};
+      welcomes.push({
+        type: 'welcome',
+        top: Math.round(Math.random() * 80 + 6),
+        nickname: nickname,
+        body: body,
+        user: user,
+        raw: response.raw
+      });
+      return {
+        welcomes: welcomes.slice(welcomes.length - 20)
+      }
+    });
     this.setState(function(prevState) {
       var messages = Util.copy(prevState.messages) || [];
       messages.push({
+        key: Date.now(),
         type: 'welcome',
         nickname: nickname,
         body: body,
@@ -103,6 +135,7 @@ var DanmuComponent = createReactClass({
     this.setState(function(prevState) {
       var messages = Util.copy(prevState.messages);
       messages.push({
+        key: Date.now(),
         type: 'chat',
         nickname: body.nn,
         danmu: body.txt,
@@ -129,18 +162,60 @@ var DanmuComponent = createReactClass({
     });
   },
   speak: function(text) {
-    var msg = new SpeechSynthesisUtterance(text);
-    msg.lang = 'zh';
-    msg.voice = speechSynthesis.getVoices().filter(function(voice) {
-      return voice.name == 'Whisper';
-    })[0];
-    speechSynthesis.speak(msg);
+    if (this.state.baiduVoice) {
+      this.baiduSpeak(text);
+    } else {
+      this.systemSpeak(text);
+    }
+  },
+  baiduSpeak: function(text) {
+    var self = this;
+    var audio = new Audio();
+
+    audio.oncanplay = function() {
+      audio.play();
+      audio = null;
+    };
+    audio.onerror = function() {
+      self.systemSpeak(text);
+      audio = null;
+    }
+    audio.src = 'http://tsn.baidu.com/text2audio?lan=zh&ctp=1'
+      + '&cuid=CUID_' + Date.now()
+      + '&tok=' + GLOBAL_CONFIG.baidu_access_token
+      + '&tex=' + text
+      + '&spd=' + this.state.voiceSpd
+      + '&pit=' + this.state.voicePit
+      + '&vol=' + this.state.voiceVol
+      + '&per=' + this.state.voicePer
+    ;
+  },
+  systemSpeak: function(text) {
+    var message = new SpeechSynthesisUtterance(text);
+    message.lang = 'zh';
+    speechSynthesis.speak(message);
   },
   renderWelcomes: function() {
-    // TODO
+    if (this.state.admin) return null;
     return createElement('div', {
       className: 'danmu__welcomes'
-    });
+    },
+      this.state.welcomes.map(function(item, index) {
+        var lastLogin = '来';
+        if (item.user) {
+          lastLogin = '回';
+        }
+        return React.createElement('div', {
+          key: item.body.nn,
+          style: {
+            marginTop: item.top + 'px'
+          },
+          className: 'welcomes__item'
+        }, '欢迎', createElement('span', {
+          className: 'item__nickname'
+        }, item.nickname), (item.user ? '回' : '来') + '到直播间');
+      }.bind(this))
+    );
   },
   renderGifts: function() {
     return createElement('div', {
@@ -152,7 +227,7 @@ var DanmuComponent = createReactClass({
       },
         this.state.gifts.map(function(item, index) {
           return React.createElement('li', {
-            key: index,
+            key: item.key,
             className: 'gifts__item'
           }, '感谢', createElement('span', {
             className: 'item__nickname'
@@ -162,17 +237,24 @@ var DanmuComponent = createReactClass({
     );
   },
   renderMessageWelcom: function(item, index) {
+    var lastLogin = '来';
+    if (item.user) {
+      lastLogin = '回';
+      if (this.props.admin && item.user.timestamp) {
+        lastLogin = ' (上次 ' + (new Date(item.user.timestamp)).toString() + ' ) ' + lastLogin
+      }
+    }
     return React.createElement('div', {
-      key: index,
+      key: item.key,
       className: 'messages__item messages__item--' + item.type
     }, '欢迎', createElement('span', {
       className: 'item__nickname'
-    }, item.nickname), (item.user ? '回' : '来') + '到直播间');
+    }, item.nickname), lastLogin + '到直播间');
   },
   renderMessageChat: function(item, index) {
     var permission = Config.danmu.permissions[item.permission];
     var nickname = item.nickname;
-    var nameplate = item.nameplate;
+    var nameplate = item.nameplate;π
     var permissionNode = permission ? createElement('span', {
       className: 'item__permission'
     } , '[' + permission + ']') : null;
@@ -193,7 +275,7 @@ var DanmuComponent = createReactClass({
       return item;
     });
     return React.createElement('div', {
-      key: index,
+      key: item.key,
       className: 'messages__item messages__item--' + item.type
     }, permissionNode, nameplateNode, nicknameNode, danmuNode);
   },
@@ -203,7 +285,11 @@ var DanmuComponent = createReactClass({
     },
       createElement('div', {
         className: 'messages__inner',
-        ref: 'message'
+        ref: 'message',
+        onScroll: function(event) {
+          // TODO 显示滚动距离
+          console.log(this)
+        }.bind(this)
       },
         this.state.messages.map(function(item, index) {
           var message = '';
@@ -237,56 +323,146 @@ var DanmuComponent = createReactClass({
     return createElement('div', {
       className: 'danmu__admin'
     },
-      createElement('button', {
-        className: this.state.voiceWelcome ? 'acitve' : '',
-        onClick: function() {
-          this.setState(function(prevState) {
-            return {
-              voiceWelcome: !prevState.voiceWelcome
-            }
-          });
-        }.bind(this)
-      }, (this.state.voiceWelcome ? '关闭' : '开启') + '欢迎语音'),
-      createElement('button', {
-        className: this.state.voiceChat ? 'acitve' : '',
-        onClick: function() {
-          this.setState(function(prevState) {
-            return {
-              voiceChat: !prevState.voiceChat
-            }
-          });
-        }.bind(this)
-      }, (this.state.voiceChat ? '关闭' : '开启') + '弹幕语音'),
-      createElement('button', {
-        className: this.state.messagesLocked ? 'acitve' : '',
-        onClick: function() {
-          this.setState(function(prevState) {
-            return {
-              messagesLocked: !prevState.messagesLocked
-            }
-          });
-        }.bind(this)
-      }, (this.state.messagesLocked ? '解锁' : '锁定') + '弹幕'),
-      createElement('button', {
-        className: this.state.giftsLocked ? 'acitve' : '',
-        onClick: function() {
-          this.setState(function(prevState) {
-            return {
-              giftsLocked: !prevState.giftsLocked
-            }
-          });
-        }.bind(this)
-      }, (this.state.giftsLocked ? '解锁' : '锁定') + '礼物'),
-      createElement('button', {
-        className: this.state.logsLocked ? 'acitve' : '',
-        onClick: function() {
-          this.setState(function(prevState) {
-            return {
-              logsLocked: !prevState.logsLocked
-            }
-          });
-        }.bind(this)
-      }, (this.state.logsLocked ? '解锁' : '锁定') + '日志')
+      createElement('div', {
+        className: 'admin__item admin__item--voice'
+      },
+        createElement('button', {
+          onClick: function() {
+            this.setState(function(prevState) {
+              return {
+                adminVoiceVisible: !prevState.adminVoiceVisible
+              };
+            });
+          }.bind(this)
+        }, '语音设置'),
+        this.state.adminVoiceVisible ? createElement('div', {
+          onClick: function(event) {
+            if (event.target !== event.currentTarget) return;
+            this.setState({
+              adminVoiceVisible: false
+            });
+          }.bind(this)
+        }, createElement('ul', null,
+          createElement('li', {
+            onClick: function() {
+              this.setState(function(prevState) {
+                return {
+                  voiceWelcome: !prevState.voiceWelcome
+                }
+              });
+            }.bind(this)
+          }, '语音欢迎：' + (this.state.voiceWelcome ? '开启' : '关闭')),
+          createElement('li', {
+            onClick: function() {
+              this.setState(function(prevState) {
+                return {
+                  voiceChat: !prevState.voiceChat
+                }
+              });
+            }.bind(this)
+          }, '播放弹幕：' + (this.state.voiceChat ? '开启' : '关闭')),
+          createElement('li', {
+            onClick: function() {
+              this.setState(function(prevState) {
+                return {
+                  baiduVoice: !prevState.baiduVoice
+                }
+              });
+            }.bind(this)
+          }, '百度语音API：' + (this.state.baiduVoice ? '开启' : '关闭')),
+          this.state.baiduVoice ? [
+            createElement('li', {
+              key: 'VOICE_SPD'
+            }, '语速: ', createElement('select', {
+              value: this.state.voiceSpd,
+              onChange: function(event) {
+                this.setState({ voiceSpd: event.target.value })
+              }.bind(this)
+            }, VOICE_SPD.map(function(item, index) {
+              return createElement('option', { key: item.value, value: item.value }, item.text);
+            }))),
+            createElement('li', {
+              key: 'VOICE_PIT'
+            }, '音调: ', createElement('select', {
+              value: this.state.voicePit,
+              onChange: function(event) {
+                this.setState({ voicePit: event.target.value })
+              }.bind(this)
+            }, VOICE_PIT.map(function(item, index) {
+              return createElement('option', { key: item.value, value: item.value }, item.text);
+            }))),
+            createElement('li', {
+              key: 'VOICE_VOL'
+            }, '音量: ', createElement('select', {
+              value: this.state.voiceVol,
+              onChange: function(event) {
+                this.setState({ voiceVol: event.target.value })
+              }.bind(this)
+            }, VOICE_VOL.map(function(item, index) {
+              return createElement('option', { key: item.value, value: item.value }, item.text);
+            }))),
+            createElement('li', {
+              key: 'VOICE_PER'
+            }, '发音人: ', createElement('select', {
+              value: this.state.voicePer,
+              onChange: function(event) {
+                this.setState({ voicePer: event.target.value })
+              }.bind(this)
+            }, VOICE_PER.map(function(item, index) {
+              return createElement('option', { key: item.value, value: item.value }, item.text);
+            })))
+          ] : null
+        )) : null
+      ),
+      createElement('div', {
+        className: 'admin__item admin__item--autoscroll'
+      },
+        createElement('button', {
+          onClick: function() {
+            this.setState(function(prevState) {
+              return {
+                adminAutoscrollVisible: !prevState.adminAutoscrollVisible
+              };
+            });
+          }.bind(this)
+        }, '滚屏设置'),
+        this.state.adminAutoscrollVisible ?  createElement('div', {
+          onClick: function(event) {
+            if (event.target !== event.currentTarget) return;
+            this.setState({
+              adminAutoscrollVisible: false
+            });
+          }.bind(this)
+        }, createElement('ul', null,
+          createElement('li', {
+            onClick: function() {
+              this.setState(function(prevState) {
+                return {
+                  messagesLocked: !prevState.messagesLocked
+                }
+              });
+            }.bind(this)
+          }, '弹幕滚动：' + (this.state.messagesLocked ? '锁定' : '自由')),
+          createElement('li', {
+            onClick: function() {
+              this.setState(function(prevState) {
+                return {
+                  giftsLocked: !prevState.giftsLocked
+                }
+              });
+            }.bind(this)
+          }, '礼物滚动：' + (this.state.giftsLocked ? '锁定' : '自由')),
+          createElement('li', {
+            onClick: function() {
+              this.setState(function(prevState) {
+                return {
+                  logsLocked: !prevState.logsLocked
+                }
+              });
+            }.bind(this)
+          }, '日志滚动：' + (this.state.logsLocked ? '锁定' : '自由'))
+        )) : null
+      ),
     );
   },
   render: function() {
