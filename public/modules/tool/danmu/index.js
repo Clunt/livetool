@@ -15,6 +15,10 @@ var createElement = React.createElement;
 var DanmuComponent = createReactClass({
   getInitialState: function() {
     return {
+      messageScrollPercent: 1,
+      giftScrollPercent: 1,
+      logScrollPercent: 1,
+
       adminVoiceVisible: false,
       adminAutoscrollVisible: false,
       baiduVoice: true,
@@ -100,6 +104,7 @@ var DanmuComponent = createReactClass({
     this.setState(function(prevState) {
       var welcomes = Util.copy(prevState.welcomes) || {};
       welcomes.push({
+        key: Date.now(),
         type: 'welcome',
         top: Math.round(Math.random() * 80 + 6),
         nickname: nickname,
@@ -206,7 +211,7 @@ var DanmuComponent = createReactClass({
           lastLogin = '回';
         }
         return React.createElement('div', {
-          key: item.body.nn,
+          key: item.key,
           style: {
             marginTop: item.top + 'px'
           },
@@ -222,7 +227,18 @@ var DanmuComponent = createReactClass({
       className: 'danmu__gifts'
     },
       createElement('div', {
+        className: 'gifts_percent',
+        style: {
+          width: (1 - this.state.giftScrollPercent) * 100 + '%'
+        }
+      }),
+      createElement('div', {
         className: 'gifts__inner',
+        onScroll: function(event) {
+          this.setState({
+            giftScrollPercent: event.target.scrollTop / ((event.target.scrollHeight - event.target.offsetHeight) || 1)
+          });
+        }.bind(this),
         ref: 'gift'
       },
         this.state.gifts.map(function(item, index) {
@@ -284,11 +300,18 @@ var DanmuComponent = createReactClass({
       className: 'danmu__messages'
     },
       createElement('div', {
+        className: 'messages_percent',
+        style: {
+          width: (1 - this.state.messageScrollPercent) * 100 + '%'
+        }
+      }),
+      createElement('div', {
         className: 'messages__inner',
         ref: 'message',
         onScroll: function(event) {
-          // TODO 显示滚动距离
-          console.log(this)
+          this.setState({
+            messageScrollPercent: event.target.scrollTop / ((event.target.scrollHeight - event.target.offsetHeight) || 1)
+          });
         }.bind(this)
       },
         this.state.messages.map(function(item, index) {
@@ -308,7 +331,19 @@ var DanmuComponent = createReactClass({
     return createElement('div', {
       className: 'danmu__logs'
     },
+      createElement('div', {
+        className: 'logs_percent',
+        style: {
+          width: (1 - this.state.logScrollPercent) * 100 + '%'
+        }
+      }),
       createElement('ul', {
+        onScroll: function(event) {
+          console.log(event.target.scrollTop / ((event.target.scrollHeight - event.target.offsetHeight) || 1))
+          this.setState({
+            logScrollPercent: event.target.scrollTop / ((event.target.scrollHeight - event.target.offsetHeight) || 1)
+          });
+        }.bind(this),
         ref: 'log'
       }, this.state.logs.map(function(msg, index) {
         return React.createElement('li', {
@@ -442,7 +477,7 @@ var DanmuComponent = createReactClass({
                 }
               });
             }.bind(this)
-          }, '弹幕滚动：' + (this.state.messagesLocked ? '锁定' : '自由')),
+          }, '弹幕滚动：' + (this.state.messagesLocked ? '自由' : '锁定')),
           createElement('li', {
             onClick: function() {
               this.setState(function(prevState) {
@@ -451,7 +486,7 @@ var DanmuComponent = createReactClass({
                 }
               });
             }.bind(this)
-          }, '礼物滚动：' + (this.state.giftsLocked ? '锁定' : '自由')),
+          }, '礼物滚动：' + (this.state.giftsLocked ? '自由' : '锁定')),
           createElement('li', {
             onClick: function() {
               this.setState(function(prevState) {
@@ -460,9 +495,9 @@ var DanmuComponent = createReactClass({
                 }
               });
             }.bind(this)
-          }, '日志滚动：' + (this.state.logsLocked ? '锁定' : '自由'))
+          }, '日志滚动：' + (this.state.logsLocked ? '自由' : '锁定'))
         )) : null
-      ),
+      )
     );
   },
   render: function() {

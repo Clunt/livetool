@@ -17,6 +17,7 @@
     .tool.tool--user .tool__danmu .danmu__gifts .gifts__item{}
       .tool.tool--user .tool__danmu .danmu__gifts .gifts__item .item__nickname{margin: 0 3px;color: gold;animation: danmuNickname 3000ms ease 500ms;animation-fill-mode: forwards;}
   .tool.tool--user .tool__danmu .danmu__logs{position: absolute;right: 0;bottom: 8px;width: 32%;height: 16px;overflow: hidden;padding-right: 64px;font-size: 12px;line-height: 16px;color: #666;}
+    .tool.tool--user .tool__danmu .danmu__logs .logs_percent{display: none;}
   .tool.tool--user .tool__danmu .danmu__state{position: absolute;position: absolute;bottom: 9px;right: 12px;padding: 0 6px;font-size: 12px;line-height: 20px;color: #fff;border-radius: 10px;}
     .tool.tool--user .tool__danmu .danmu__state.danmu__state--0{background: #FE4C40;}
     .tool.tool--user .tool__danmu .danmu__state.danmu__state--1{background: #4285F4;}
