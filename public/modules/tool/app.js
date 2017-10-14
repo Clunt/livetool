@@ -1,10 +1,9 @@
 var createElement = React.createElement;
-// var location = (window || {}).location || {}
 var App = createReactClass({
   getInitialState: function() {
     return {
       admin: false,
-      // admin: location.hash === '#admin',
+      admin: location.hash === '#admin',
 
       socket: io('/'),
       state: 0, // 0 初始状态 1 Socket连接 2 弹幕连接

@@ -1,6 +1,7 @@
 // TODO:
 // 1. 进场提示
 // 2. 语音欢迎
+var createElement = React.createElement;
 var DanmuComponent = createReactClass({
   getInitialState: function() {
     return {
@@ -285,11 +286,11 @@ var DanmuComponent = createReactClass({
             }
           });
         }.bind(this)
-      }, (this.state.logsLocked ? '解锁' : '锁定') + '日志'),
+      }, (this.state.logsLocked ? '解锁' : '锁定') + '日志')
     );
   },
   render: function() {
-    return React.createElement('div', {
+    return createElement('div', {
         className: 'tool__danmu'
       },
       this.renderWelcomes(),
