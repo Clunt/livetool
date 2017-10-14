@@ -1,0 +1,26 @@
+.tool.tool--admin .tool__side{position: absolute;top: 0;left: 0;width: 100%;height: 60px;box-shadow: 0 1px 3px rgba(0,0,0,0.12);}
+  .tool.tool--admin .tool__side .side__header,
+  .tool.tool--admin .tool__side .side__footer{display: none;}
+  .tool.tool--admin .tool__side .side__content{}
+  .tool.tool--admin .tool__side .side__content .content__box__code{display: none;}
+    .tool.tool--admin .tool__side .side__content .content__box{display: none;}
+    .tool.tool--admin .tool__side .side__content .content__box{position: fixed;z-index: 9999;top: 10%;left: 10%;width: 80%;height: 80%;background: #fff;box-shadow: 0 0 6px rgba(0,0,0,0.12);}
+      .tool.tool--admin .tool__side .side__content .content__box .content__box__title{padding: 6px 12px;background: #f3f3f3;border-bottom: 1px solid #ddd;font-size: 24px;line-height: 32px;}
+      .tool.tool--admin .tool__side .side__content .content__box .content__box__main{overflow-x: hidden;overflow-y: auto;}
+  /*
+    .tool.tool--admin .tool__side .side__content .content__music{}
+      .tool.tool--admin .tool__side .side__content .content__music .content__box__main{max-height: 360px;}
+      .tool.tool--admin .tool__side .side__content .content__music .music__playlist{margin-top: 6px;font-size: 22px;color: #999;line-height: 30px;word-break: break-all;}
+      .tool.tool--admin .tool__side .side__content .content__music .music__playlist li{margin-bottom: 6px;}
+      .tool.tool--admin .tool__side .side__content .content__music .music__playlist li:first-child{margin-bottom: 12px;font-style: italic;color: #4285F4;}
+      .tool.tool--admin .tool__side .side__content .content__music .music__playlist li.empty{margin: 12px 24px 0;padding-top: 6px;border-top: 1px dashed #f6f6f6;font-size: 12px;font-style: normal;text-align: center;}
+   */
+    .tool.tool--admin .tool__side .side__content .content__flag{}
+    .tool.tool--admin .tool__side .side__content .content__flag .content__box__main{padding: 12px;}
+      .tool.tool--admin .tool__side .side__content .content__flag .flag__list{font-size: 16px;line-height: 24px;}
+        .tool.tool--admin .tool__side .side__content .content__flag .flag__list li{position: relative;min-height: 24px;margin-bottom: 6px;}
+          .tool.tool--admin .tool__side .side__content .content__flag .flag__list li div{padding-right: 64px;word-break: break-all;}
+          .tool.tool--admin .tool__side .side__content .content__flag .flag__list li span{position: absolute;top: 0;right: 6px;text-align: right;font-style: italic;font-size: 18px;}
+@media (max-width: 767px) {
+  .tool.tool--admin .tool__side{height: 48px;}
+}

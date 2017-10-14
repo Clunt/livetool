@@ -1,7 +1,10 @@
+var createElement = React.createElement;
+// var location = (window || {}).location || {}
 var App = createReactClass({
   getInitialState: function() {
     return {
       admin: false,
+      // admin: location.hash === '#admin',
 
       socket: io('/'),
       state: 0, // 0 初始状态 1 Socket连接 2 弹幕连接
@@ -35,17 +38,16 @@ var App = createReactClass({
     });
   },
   render: function() {
+    var isAdmin = this.state.admin;
     return React.createElement('div', {
-        className: ['tool', this.state.admin ? 'tool--admin' : ''].join(' ')
+        className: 'tool tool--' + (isAdmin ? 'admin' : 'user')
       },
-      React.createElement('div', {
-        className: 'tool__main'
-      }),
-      React.createElement(SideComponent, {
+      createElement('div', { className: 'tool__main' }),
+      createElement(SideComponent, {
         socket: this.state.socket,
         admin: this.state.admin,
       }),
-      React.createElement(DanmuComponent, {
+      createElement(DanmuComponent, {
         socket: this.state.socket,
         admin: this.state.admin,
         state: this.state.state
@@ -55,8 +57,5 @@ var App = createReactClass({
 });
 
 $(function() {
-  ReactDOM.render(
-    React.createElement(App),
-    document.getElementById('app')
-  );
+  ReactDOM.render( createElement(App), document.getElementById('app') );
 });

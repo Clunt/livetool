@@ -35,7 +35,7 @@ td {
 html,
 body {
   font-size: 100%;
-  font-family: PingFangSC-Regular,"Helvetica Neue",Helvetica,"Hiragino Sans GB","Segoe UI","Microsoft Yahei",Tahoma,Arial,STHeiti,sans-serif;
+  font-family: PingFangSC-Regular, "Helvetica Neue", Helvetica, "Hiragino Sans GB", "Segoe UI", "Microsoft Yahei", Tahoma, Arial, STHeiti, sans-serif;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
@@ -128,4 +128,19 @@ input::-moz-focus-inner {
 
 input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+}
+
+
+
+
+button {
+  font-size: 14px;
+  line-height: 24px;
+  padding: 3px 12px;
+  border-radius: 3px;
+  border: 1px solid #eee;
+}
+
+button:hover {
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.06) inset;
 }

@@ -1,0 +1,33 @@
+.tool.tool--admin .tool__danmu{position: absolute;top: 60px;left: 0;right: 0;bottom: 0;}
+  .tool.tool--admin .tool__danmu .danmu__welcomes{display: none;}
+  .tool.tool--admin .tool__danmu .danmu__messages{position: absolute;left: 0;top: 12px;bottom: 60px;width: 50%;overflow: hidden;}
+    .tool.tool--admin .tool__danmu .danmu__messages .messages__inner{position: absolute;top: 0;left: 0;right: -20px;height: 100%;overflow: auto;padding-right: 40px;}
+      .tool.tool--admin .tool__danmu .danmu__messages .messages__item{font-size: 14px;line-height: 20px;margin: 0 12px;padding: 6px 12px;border-bottom: 1px solid #eee;}
+        .tool.tool--admin .tool__danmu .danmu__messages .messages__item--welcome .item__nickname{margin: 0 3px;}
+        .tool.tool--admin .tool__danmu .danmu__messages .messages__item--chat .item__nickname{margin-right: 6px;}
+        .tool.tool--admin .tool__danmu .danmu__messages .messages__item--chat .item__permission{margin-right: 3px;}
+        .tool.tool--admin .tool__danmu .danmu__messages .messages__item--chat .item__nameplate{margin-right: 3px;color: #666;}
+        .tool.tool--admin .tool__danmu .danmu__messages .messages__item--chat .item__nameplate--family{color: gold;}
+        .tool.tool--admin .tool__danmu .danmu__messages .messages__item--chat img{height: 24px;margin: 0 3px;vertical-align: bottom;}
+  .tool.tool--admin .tool__danmu .danmu__gifts{position: absolute;right: 0;top: 12px;bottom: 84px;width: 50%;overflow: hidden;}
+    .tool.tool--admin .tool__danmu .danmu__gifts .gifts__inner{position: absolute;top: 0;left: 0;right: -20px;height: 100%;overflow: auto;padding-right: 40px;}
+      .tool.tool--admin .tool__danmu .danmu__gifts .gifts__item{}
+        .tool.tool--admin .tool__danmu .danmu__gifts .gifts__item .item__nickname{margin: 0 3px;color: gold;}
+  .tool.tool--admin .tool__danmu .danmu__logs{position: absolute;left: 0;bottom: 0;width: 100%;height: 36px;overflow: hidden;background: #212121;}
+    .tool.tool--admin .tool__danmu .danmu__logs ul{position: absolute;left: 0;top: 4px;bottom: 4px;right: -20px;padding: 0 64px 0 6px;overflow: auto;}
+      .tool.tool--admin .tool__danmu .danmu__logs ul li{font-size: 12px;color: #666;line-height: 14px;}
+  .tool.tool--admin .tool__danmu .danmu__state{position: absolute;position: absolute;bottom: 9px;right: 12px;padding: 0 6px;font-size: 12px;line-height: 20px;color: #fff;border-radius: 10px;}
+    .tool.tool--admin .tool__danmu .danmu__state.danmu__state--0{background: #FE4C40;}
+    .tool.tool--admin .tool__danmu .danmu__state.danmu__state--1{background: #4285F4;}
+    .tool.tool--admin .tool__danmu .danmu__state.danmu__state--2{background: #32CD32;}
+  .tool.tool--admin .tool__danmu .danmu__admin{position: absolute;right: 0;bottom: 36px;width: 50%;height: 48px;padding-right: 24px;overflow: hidden;text-align: right;white-space: nowrap;overflow: auto;}
+    .tool.tool--admin .tool__danmu .danmu__admin button{margin-top: 8px;margin-left: 6px;}
+    .tool.tool--admin .tool__danmu .danmu__admin button.acitve{box-shadow: 0 0 6px rgba(0,0,0,0.24) inset;}
+
+
+@media (max-width: 767px) {
+  .tool.tool--admin .tool__danmu{top: 48px;}
+    .tool.tool--admin .tool__danmu .danmu__messages{bottom: 50%;width: 100%;border-bottom: 1px solid #eee;}
+    .tool.tool--admin .tool__danmu .danmu__gifts{top: 50%;width: 100%;border-bottom: 1px solid #eee;}
+    .tool.tool--admin .tool__danmu .danmu__admin{width: 100%;}
+}
