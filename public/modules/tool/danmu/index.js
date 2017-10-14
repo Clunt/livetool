@@ -254,7 +254,7 @@ var DanmuComponent = createReactClass({
   renderMessageChat: function(item, index) {
     var permission = Config.danmu.permissions[item.permission];
     var nickname = item.nickname;
-    var nameplate = item.nameplate;π
+    var nameplate = item.nameplate;
     var permissionNode = permission ? createElement('span', {
       className: 'item__permission'
     } , '[' + permission + ']') : null;
