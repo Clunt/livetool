@@ -94,6 +94,7 @@ select {
 
 button,
 html input[type="button"],
+input,
 input[type="reset"],
 input[type="submit"] {
   background: none;
@@ -141,6 +142,8 @@ button {
   border: 1px solid #eee;
 }
 
-button:hover {
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.06) inset;
+@media (min-width: 768px) {
+  button:hover {
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.12) inset;
+  }
 }

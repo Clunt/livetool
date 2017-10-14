@@ -104,7 +104,7 @@ var DanmuComponent = createReactClass({
     this.setState(function(prevState) {
       var welcomes = Util.copy(prevState.welcomes) || {};
       welcomes.push({
-        key: Date.now(),
+        key: 'W_' + Date.now(),
         type: 'welcome',
         top: Math.round(Math.random() * 80 + 6),
         nickname: nickname,
@@ -339,7 +339,6 @@ var DanmuComponent = createReactClass({
       }),
       createElement('ul', {
         onScroll: function(event) {
-          console.log(event.target.scrollTop / ((event.target.scrollHeight - event.target.offsetHeight) || 1))
           this.setState({
             logScrollPercent: event.target.scrollTop / ((event.target.scrollHeight - event.target.offsetHeight) || 1)
           });

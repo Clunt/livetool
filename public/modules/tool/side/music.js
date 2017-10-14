@@ -2,6 +2,7 @@ var createElement = React.createElement;
 var SideMusicComponent = createReactClass({
   getInitialState: function() {
     return {
+      music: '',
       data: {}
     };
   },
@@ -34,18 +35,48 @@ var SideMusicComponent = createReactClass({
       className: 'music__playlist'
     }, playlistNodes);
   },
+  renderAdmin: function() {
+    if (!this.props.admin) return undefined;
+    return createElement('div', {
+      className: 'music__admin'
+    }, createElement('input', {
+      type: 'text',
+      value: this.state.music,
+      onChange: function(event) {
+        this.setState({
+          music: event.target.value
+        });
+      }.bind(this)
+    }), createElement('button', {
+      onClick: function() {
+        var music = this.state.music;
+        if (!music) return;
+        this.props.socket.emit('addMusic', music);
+        this.setState({
+          music: ''
+        });
+      }.bind(this)
+    }, '点歌'), createElement('button', {
+      onClick: function() {
+        this.props.socket.emit('cutMusic');
+      }.bind(this)
+    }, '切歌'));
+  },
   render: function() {
     return createElement('div', {
-        className: 'content__box content__music'
+        className: 'content__box content__music ' + (this.props.admin && !this.props.visible ? 'content__box--hide' : '')
       },
-      createElement('div', { className: 'content__box__title' }, '点歌'),
-      createElement('ul', {
-          className: 'content__box__code'
-        },
-        createElement('li', null, '#点歌 歌名/歌手#'),
-        createElement('li', null, '#切歌#')
-      ),
-      createElement('div', { className: 'content__box__main' }, this.renderPlaylist())
+      createElement('div', null,
+        createElement('div', { className: 'content__box__title' }, '点歌'),
+        createElement('ul', {
+            className: 'content__box__code'
+          },
+          createElement('li', null, '#点歌 歌名/歌手#'),
+          createElement('li', null, '#切歌#')
+        ),
+        createElement('div', { className: 'content__box__main' }, this.renderPlaylist()),
+        this.renderAdmin()
+      )
     );
   }
 });

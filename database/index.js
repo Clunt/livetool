@@ -60,25 +60,20 @@ function getMusic(callback) {
     callback(_getPlaylist(music));
   });
 }
-
-socket.emitter.on('connection', (nsp, socket) => {
-  getFlag(function(data) {
-    socket.emit('flag', data);
-  });
-  getMusic(function(data) {
-    socket.emit('music', data);
-  });
-  socket.on('getFlag', function() {
-    getFlag(function(data) {
-      socket.emit('flag', data);
+function cutSong() {
+  database.song_cut = true;
+}
+function addSong(song) {
+  writeDatabase(databaseMusic, function(save, database) {
+    database.playlist = database.playlist || [];
+    if (database.playlist.indexOf(song) > -1) return;
+    database.playlist.push(song);
+    socket.getIO((io) => {
+      io.emit('music', _getPlaylist(database));
     });
+    save(database);
   });
-  socket.on('getMusic', function() {
-    getMusic(function(data) {
-      socket.emit('music', data);
-    });
-  });
-});
+}
 
 exports = module.exports = database;
 
@@ -143,15 +138,7 @@ exports.writeSong = function(response, nickname, message) {
   }
   if (!value.length) return;
   var result = value.join('-');
-  writeDatabase(databaseMusic, function(save, database) {
-    database.playlist = database.playlist || [];
-    if (database.playlist.indexOf(result) > -1) return;
-    database.playlist.push(result);
-    socket.getIO((io) => {
-      io.emit('music', _getPlaylist(database));
-    });
-    save(database);
-  });
+  addSong(result);
 };
 exports.recordSong = function(song) {
   song.count = 0;
@@ -169,9 +156,6 @@ exports.recordSong = function(song) {
 };
 exports.cutSong = function(response, nickname, message) {
   database.song_cut = !!message.match(/#切歌#/);
-};
-exports._cutSong = function() {
-  database.song_cut = true;
 };
 
 exports.readSong = function() {
@@ -204,3 +188,31 @@ exports.getUser = function(uid, callback) {
     callback(user);
   });
 };
+
+
+
+socket.emitter.on('connection', (nsp, socket) => {
+  getFlag(function(data) {
+    socket.emit('flag', data);
+  });
+  getMusic(function(data) {
+    socket.emit('music', data);
+  });
+  socket.on('getFlag', function() {
+    getFlag(function(data) {
+      socket.emit('flag', data);
+    });
+  });
+  socket.on('getMusic', function() {
+    getMusic(function(data) {
+      socket.emit('music', data);
+    });
+  });
+  socket.on('addMusic', function(music) {
+    if (!music) return;
+    addSong(music);
+  });
+  socket.on('cutMusic', function() {
+    cutSong();
+  });
+});
