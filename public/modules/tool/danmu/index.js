@@ -1,6 +1,7 @@
 // TODO:
 // 1. 语音播报队列
-var SPEAD_LIST = [];
+var SPEAKING = false;
+var SPEAK_LIST = [];
 
 // 选填  语速，取值0-9，默认为5中语速
 var VOICE_SPD = [{value: '0', text: '0'}, {value: '1', text: '1'}, {value: '2', text: '2'}, {value: '3', text: '3'}, {value: '4', text: '4'}, {value: '5', text: '5'}, {value: '6', text: '6'}, {value: '7', text: '7'}, {value: '8', text: '8'}, {value: '9', text: '9'}];
@@ -14,13 +15,18 @@ var VOICE_PER = [{value: '0', text: '普通女声'}, {value: '1', text: '普通�
 var createElement = React.createElement;
 var DanmuComponent = createReactClass({
   getInitialState: function() {
+    var weak = this.props.admin ? new NoSleep() : null;
     return {
+      weak: weak,
+      sleep: true,
+
       messageScrollPercent: 1,
       giftScrollPercent: 1,
       logScrollPercent: 1,
 
       adminVoiceVisible: false,
       adminAutoscrollVisible: false,
+      adminOtherVisible: false,
       baiduVoice: true,
       voiceSpd: '5', // 选填  语速，取值0-9，默认为5中语速
       voicePit: '5', // 选填  音调，取值0-9，默认为5中语调
@@ -51,6 +57,9 @@ var DanmuComponent = createReactClass({
         case 'gift':
           this.gift(data);
           break;
+        case 'deserve':
+          this.gift(data);
+          break;
         case 'log':
           this.log(data);
           break;
@@ -72,6 +81,7 @@ var DanmuComponent = createReactClass({
     }
   },
   gift: function(data) {
+    if (this.props.admin && data.type === 'deserve') return alert(data.response.raw); // TODO
     var response = data.response;
     var body = response.body;
     this.setState(function(prevState) {
@@ -174,17 +184,23 @@ var DanmuComponent = createReactClass({
     }
   },
   baiduSpeak: function(text) {
+    if (SPEAKING) return;
     var self = this;
     var audio = new Audio();
 
     audio.oncanplay = function() {
+      SPEAKING = true;
       audio.play();
       audio = null;
     };
+    audio.onended = function() {
+      SPEAKING = false;
+    };
     audio.onerror = function() {
+      SPEAKING = false;
       self.systemSpeak(text);
       audio = null;
-    }
+    };
     audio.src = 'http://tsn.baidu.com/text2audio?lan=zh&ctp=1'
       + '&cuid=CUID_' + Date.now()
       + '&tok=' + GLOBAL_CONFIG.baidu_access_token
@@ -242,13 +258,20 @@ var DanmuComponent = createReactClass({
         ref: 'gift'
       },
         this.state.gifts.map(function(item, index) {
+          var gift = '';
+          // TODO
+          console.log('礼物', this.props.admin, Config.danmu.gifts, item.body.gfid)
+          if (this.props.admin) {
+            gift = Config.danmu.gifts[item.body.gfid];
+          }
+          gift = gift || '礼物';
           return React.createElement('li', {
             key: item.key,
             className: 'gifts__item'
           }, '感谢', createElement('span', {
             className: 'item__nickname'
-          }, item.nickname), '送的礼物');
-        })
+          }, item.nickname), '送的' + gift);
+        }.bind(this))
       )
     );
   },
@@ -495,6 +518,43 @@ var DanmuComponent = createReactClass({
               });
             }.bind(this)
           }, '日志滚动：' + (this.state.logsLocked ? '自由' : '锁定'))
+        )) : null
+      ),
+      createElement('div', {
+        className: 'admin__item admin__item--other'
+      },
+        createElement('button', {
+          onClick: function() {
+            this.setState(function(prevState) {
+              return {
+                adminOtherVisible: !prevState.adminOtherVisible
+              };
+            });
+          }.bind(this)
+        }, '其他设置'),
+        this.state.adminOtherVisible ?  createElement('div', {
+          onClick: function(event) {
+            if (event.target !== event.currentTarget) return;
+            this.setState({
+              adminOtherVisible: false
+            });
+          }.bind(this)
+        }, createElement('ul', null,
+          createElement('li', {
+            onClick: function() {
+              this.setState(function(prevState) {
+                var sleep = !prevState.sleep;
+                if (sleep) {
+                  this.state.weak.disable();
+                } else {
+                  this.state.weak.enable();
+                }
+                return {
+                  sleep: sleep
+                }
+              });
+            }.bind(this)
+          }, '屏幕锁定：' + (this.state.sleep ? '自动' : '常亮'))
         )) : null
       )
     );

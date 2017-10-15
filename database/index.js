@@ -77,6 +77,17 @@ function addSong(song) {
 
 exports = module.exports = database;
 
+exports.recordDeserve = function(response) {
+  if (!uid) return;
+  writeDatabase(databaseRecord, function(save, database) {
+    database.deserve = database.deserve || [];
+    database.deserve.push({
+      response: response,
+      timestamp: Date.now()
+    });
+    save(database);
+  });
+};
 exports.recordGift = function(uid, name) {
   if (!uid) return;
   writeDatabase(databaseRecord, function(save, database) {

@@ -53,6 +53,15 @@ exports = module.exports = function() {
     });
     database.recordGift(response.body.uid, response.body.nn);
   });
+  live.on('deserve', function(response) {
+    socket.getIO((io) => {
+      io.emit('danmu', {
+        type: 'deserve',
+        response: response
+      });
+    });
+    database.recordDeserve(response);
+  });
   live.on('message', function(response) {
     var type = response.body.type;
     socket.getIO((io) => {

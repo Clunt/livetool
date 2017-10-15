@@ -22,7 +22,7 @@
       .tool.tool--admin .tool__side .side__content .content__music .music__playlist li.empty{display: none;}
       .tool.tool--admin .tool__side .side__content .content__music .music__admin{position: absolute;top: 0;right: 0;padding: 6px;}
         .tool.tool--admin .tool__side .side__content .content__music .music__admin button{margin-left: 6px;}
-        .tool.tool--admin .tool__side .side__content .content__music .music__admin input{width: 100px;height: 32px;padding: 0 6px;border-radius: 3px;border: 1px solid #eee;outline: none;}
+        .tool.tool--admin .tool__side .side__content .content__music .music__admin input{width: 100px;height: 32px;padding: 0 6px;border-radius: 3px;border: 1px solid #eee;outline: none;cursor: text;}
 
     .tool.tool--admin .tool__side .side__content .content__flag{}
     .tool.tool--admin .tool__side .side__content .content__flag .content__box__main{max-height: none;padding: 12px;}
