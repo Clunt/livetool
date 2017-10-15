@@ -177,6 +177,8 @@ var DanmuComponent = createReactClass({
     });
   },
   speak: function(text) {
+    text = text || '';
+    text = text.replace(/\[emot\:dy\d+\]/g, '');
     if (this.state.baiduVoice) {
       this.baiduSpeak(text);
     } else {

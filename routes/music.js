@@ -14,13 +14,7 @@ router.get('/next', function(req, res, next) {
   res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
   res.json([database.readSong()]);
 });
-router.get('/cut', function(req, res) {
-  res.json([database.readSongCut()]);
-});
-router.get('/switch', function(req, res) {
-  database._cutSong();
-  res.send('ok');
-});
+
 router.get('/record', function(req, res, next) {
   database.recordSong({
     id: req.query.id,

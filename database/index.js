@@ -10,9 +10,7 @@ var DEFAULT_SONG = '临安初雨';
 var databaseRecord = path.resolve(__dirname, './record.json');
 var databaseFlag = path.resolve(__dirname, './flag.json');
 var databaseMusic = path.resolve(__dirname, './music.json');
-var database = {
-  song_cut: false
-};
+var database = {};
 
 function readDatabase(path, callback) {
   try {
@@ -61,7 +59,9 @@ function getMusic(callback) {
   });
 }
 function cutSong() {
-  database.song_cut = true;
+  socket.getIO((io) => {
+    io.emit('musicCut', true);
+  });
 }
 function addSong(song) {
   writeDatabase(databaseMusic, function(save, database) {
@@ -166,7 +166,10 @@ exports.recordSong = function(song) {
   });
 };
 exports.cutSong = function(response, nickname, message) {
-  database.song_cut = !!message.match(/#切歌#/);
+  if (!message.match(/#切歌#/)) return;
+  socket.getIO((io) => {
+    io.emit('musicCut', true);
+  });
 };
 
 exports.readSong = function() {
@@ -185,11 +188,6 @@ exports.readSong = function() {
     }
   } catch (e) {}
   return song || DEFAULT_SONG;
-};
-exports.readSongCut = function() {
-  var song_cut = database.song_cut;
-  database.song_cut = false;
-  return song_cut;
 };
 exports.getUser = function(uid, callback) {
   if (!uid) return;

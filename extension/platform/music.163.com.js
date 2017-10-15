@@ -1,6 +1,7 @@
 // http://music.163.com/#/search
 PLATFORM.Music163Com = function() {
   this.playtime = null;
+  this.socket = null;
   this.init();
 };
 PLATFORM.Music163Com.prototype = {
@@ -8,8 +9,8 @@ PLATFORM.Music163Com.prototype = {
     if (!(window.parent !== window && window.location.href.indexOf('//music.163.com/search') > -1)) return;
     if (window.top.location.search.indexOf('livetool') < 0) return;
     this.inject();
+    this.initSocket();
     this.play();
-    this.switch();
     console.log('music.163.com: init');
   },
   inject: function() {
@@ -19,6 +20,10 @@ PLATFORM.Music163Com.prototype = {
       .replace(/}[^}]*$/, '');
     scriptNode.innerHTML = [this.ajax.toString(), script].join(';');
     document.head.appendChild(scriptNode);
+  },
+  initSocket: function() {
+    var socket = this.socket = io('http://127.0.0.1:6688/');
+    socket.on('musicCut', this.next.bind(this));
   },
   play: function() {
     var playtime = Number(document.body.dataset.playtime) || 0;
@@ -37,13 +42,6 @@ PLATFORM.Music163Com.prototype = {
         return alert('播放出错');
       }
       this.play();
-    }.bind(this));
-  },
-  switch: function() {
-    this.ajax('http://127.0.0.1:6688/music/cut', function(err, data) {
-      setTimeout(this.switch.bind(this), 3000);
-      if (err || !data[0]) return;
-      this.next();
     }.bind(this));
   },
   send: function() {

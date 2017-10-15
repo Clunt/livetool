@@ -13,6 +13,7 @@
     {
       "matches": ["<all_urls>"],
       "js": [
+        "library/javascripts/socket.io.js",
         "app.js",
         "platform/music.163.com.js"
       ],
