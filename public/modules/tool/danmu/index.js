@@ -109,7 +109,7 @@ var DanmuComponent = createReactClass({
       }
     }
     if (this.state.voiceWelcome) {
-      this.speak('欢迎' + nickname + (user ? '回' : '来') + '到直播间');
+      this.speak('欢迎' + nickname + (user ? '回' : '来') + '到直播间' + (data.song ? ('(点歌：' + data.song + ')') : ''));
     }
     this.setState(function(prevState) {
       var welcomes = Util.copy(prevState.welcomes) || {};
@@ -190,19 +190,27 @@ var DanmuComponent = createReactClass({
     var self = this;
     var audio = new Audio();
 
+    audio.oncancel = audio.onerror = function() {
+      SPEAKING = false;
+      audio = null;
+      self.systemSpeak(text);
+    };
+    audio.onended = function() {
+      SPEAKING = false;
+      audio = null;
+    };
     audio.oncanplay = function() {
       SPEAKING = true;
       audio.play();
       audio = null;
     };
-    audio.onended = function() {
+
+    setTimeout(function () {
+      if (!SPEAKING) return;
       SPEAKING = false;
-    };
-    audio.onerror = function() {
-      SPEAKING = false;
-      self.systemSpeak(text);
       audio = null;
-    };
+    }, 5000);
+
     audio.src = 'http://tsn.baidu.com/text2audio?lan=zh&ctp=1'
       + '&cuid=CUID_' + Date.now()
       + '&tok=' + GLOBAL_CONFIG.baidu_access_token
@@ -261,8 +269,6 @@ var DanmuComponent = createReactClass({
       },
         this.state.gifts.map(function(item, index) {
           var gift = '';
-          // TODO
-          console.log('礼物', this.props.admin, Config.danmu.gifts, item.body.gfid)
           if (this.props.admin) {
             gift = Config.danmu.gifts[item.body.gfid];
           }
@@ -290,7 +296,7 @@ var DanmuComponent = createReactClass({
       className: 'messages__item messages__item--' + item.type
     }, '欢迎', createElement('span', {
       className: 'item__nickname'
-    }, item.nickname), lastLogin + '到直播间');
+    }, item.nickname), lastLogin + '到直播间' + (item.song ? (' (点歌：' + item.song + ')') : ''));
   },
   renderMessageChat: function(item, index) {
     var permission = Config.danmu.permissions[item.permission];

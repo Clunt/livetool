@@ -17,12 +17,16 @@ exports = module.exports = function() {
     }
   });
   live.on('welcome', function(response) {
+    var uid = response.body.uid;
+    var autoMusic = config.auto_music[uid];
+    database.addSong(autoMusic); // 自动点歌
     database.getUser(response.body.uid, (user) => {
       socket.getIO((io) => {
         io.emit('danmu', {
           type: 'welcome',
           response: response,
-          user: user
+          user: user,
+          song: autoMusic
         });
       });
     });

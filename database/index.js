@@ -64,6 +64,7 @@ function cutSong() {
   });
 }
 function addSong(song) {
+  if (!song) return;
   writeDatabase(databaseMusic, function(save, database) {
     database.playlist = database.playlist || [];
     if (database.playlist.indexOf(song) > -1) return;
@@ -75,7 +76,10 @@ function addSong(song) {
   });
 }
 
+
 exports = module.exports = database;
+
+exports.addSong = addSong;
 
 exports.recordDeserve = function(response) {
   if (!uid) return;
