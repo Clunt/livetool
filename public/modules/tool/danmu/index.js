@@ -99,6 +99,7 @@ var DanmuComponent = createReactClass({
   },
   welcome: function(data) {
     var user = data.user;
+    var song = data.song;
     var response = data.response;
     var body = response.body;
     var nickname = body.nn;
@@ -134,6 +135,7 @@ var DanmuComponent = createReactClass({
         nickname: nickname,
         body: body,
         user: user,
+        song: song,
         raw: response.raw
       });
       return {

@@ -2,6 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 const util = require('../lib/util');
+const config = require('../config');
 const socket = require('../socket')();
 const log = LOGGER('database');
 
@@ -63,12 +64,18 @@ function cutSong() {
     io.emit('musicCut', true);
   });
 }
-function addSong(song) {
+function addSong(song, prior) {
   if (!song) return;
   writeDatabase(databaseMusic, function(save, database) {
     database.playlist = database.playlist || [];
-    if (database.playlist.indexOf(song) > -1) return;
-    database.playlist.push(song);
+    var song_index = database.playlist.indexOf(song);
+    if (prior) {
+      song_index > -1 && database.playlist.splice(song_index, 1);
+      database.playlist.unshift(song);
+    } else {
+      if (song_index > -1) return;
+      database.playlist.push(song);
+    }
     socket.getIO((io) => {
       io.emit('music', _getPlaylist(database));
     });
@@ -153,7 +160,11 @@ exports.writeSong = function(response, nickname, message) {
   }
   if (!value.length) return;
   var result = value.join('-');
-  addSong(result);
+  var prior = /0#[^#]+#/.test(message) && [
+    Number(response.body.rg) > 3,
+    String(response.body.brid) === String(config.room_id)
+  ].some((prior) => prior);
+  addSong(result, prior);
 };
 exports.recordSong = function(song) {
   song.count = 0;
