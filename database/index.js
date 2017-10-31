@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const util = require('../lib/util');
 const config = require('../config');
+const shield = require('../shield');
 const socket = require('../socket')();
 const log = LOGGER('database');
 
@@ -66,6 +67,7 @@ function cutSong() {
 }
 function addSong(song, prior) {
   if (!song) return;
+  if (shield.song(song)) return;
   writeDatabase(databaseMusic, function(save, database) {
     database.playlist = database.playlist || [];
     var song_index = database.playlist.indexOf(song);

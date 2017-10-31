@@ -110,7 +110,7 @@ var DanmuComponent = createReactClass({
       }
     }
     if (this.state.voiceWelcome) {
-      this.speak('欢迎' + nickname + (user ? '回' : '来') + '到直播间' + (data.song ? ('(点歌：' + data.song + ')') : ''));
+      this.speak('欢迎' + nickname + (user ? '回' : '来') + '到直播间' + (data.song ? ('(进场音乐：' + data.song + ')') : ''));
     }
     this.setState(function(prevState) {
       var welcomes = Util.copy(prevState.welcomes) || {};
@@ -298,7 +298,7 @@ var DanmuComponent = createReactClass({
       className: 'messages__item messages__item--' + item.type
     }, '欢迎', createElement('span', {
       className: 'item__nickname'
-    }, item.nickname), lastLogin + '到直播间' + (item.song ? (' (点歌：' + item.song + ')') : ''));
+    }, item.nickname), lastLogin + '到直播间' + (item.song ? (' (进场音乐：' + item.song + ')') : ''));
   },
   renderMessageChat: function(item, index) {
     var permission = Config.danmu.permissions[item.permission];

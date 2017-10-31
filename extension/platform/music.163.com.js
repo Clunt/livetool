@@ -45,11 +45,18 @@ PLATFORM.Music163Com.prototype = {
     }.bind(this));
   },
   send: function() {
+    function shield(song) {
+      var songs = ['嫁衣', '跳房子', '没人能听见', '第十三双眼', '癌', '黑色星期五', '人皮娃娃', '忏悔曲', '闹鬼的地下室', '妹妹背着洋娃娃', '百鸟朝凤'];
+      for (var i = 0; i < songs.length; i++) {
+        if (song.indexOf(songs[i]) > -1) return true;
+      }
+    }
     function play(songs) {
       var song = songs[0];
       console.log(song.id, song.name, song.dt);
       // 记录下一次播放时间
       setTimeout(function() {
+        if (shield(song.name)) return document.body.dataset.playtime = Date.now();
         // 播放歌曲
         document.getElementById('song_' + song.id).click()
         document.body.dataset.playtime = Date.now() + Number(song.dt);

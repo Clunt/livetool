@@ -1,0 +1,1 @@
+exports.song = function(song) {};
