@@ -290,7 +290,7 @@ var DanmuComponent = createReactClass({
     if (item.user) {
       lastLogin = '回';
       if (this.props.admin && item.user.timestamp) {
-        lastLogin = ' (上次 ' + (new Date(item.user.timestamp)).toString() + ' ) ' + lastLogin
+        lastLogin = ' (上次 ' + (new Date(item.user.timestamp)).toLocaleString() + ' ) ' + lastLogin
       }
     }
     return React.createElement('div', {

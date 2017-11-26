@@ -52,13 +52,18 @@ PLATFORM.Music163Com.prototype = {
       }
     }
     function play(songs) {
+      if (!songs || !songs.length) return document.body.dataset.playtime = Date.now();
       var song = songs[0];
       console.log(song.id, song.name, song.dt);
       // 记录下一次播放时间
       setTimeout(function() {
         if (shield(song.name)) return document.body.dataset.playtime = Date.now();
         // 播放歌曲
-        document.getElementById('song_' + song.id).click()
+        var el = document.getElementById('song_' + song.id)
+        if (!el) return document.body.dataset.playtime = Date.now();
+        var elClass = el.parentElement.parentElement.parentElement.className || '';
+        if (elClass.indexOf('js-dis') > -1) return document.body.dataset.playtime = Date.now();
+        el.click();
         document.body.dataset.playtime = Date.now() + Number(song.dt);
         var img = new Image();
         var query = 'id=' + encodeURIComponent(song.id) + '&name=' + encodeURIComponent(song.name) + '&dt=' + encodeURIComponent(song.dt);
@@ -72,9 +77,9 @@ PLATFORM.Music163Com.prototype = {
         this.onreadystatechange = function() {
           if (this.readyState == 4 && this.status == 200) {
             try {
-              var songs = JSON.parse(this.responseText).result.songs;
-              if (songs) {
-                play(songs);
+              var result = (JSON.parse(this.responseText) || {}).result;
+              if (result && typeof result.songCount !== 'undefined') {
+                play(result.songs);
               }
             } catch (e) {}
           }
