@@ -7,5 +7,8 @@ module.exports = {
     refresh_token: '',
     session_secret: '',
     expires_in: ''
+  },
+  auto_music: {
+    // id: music
   }
 };
