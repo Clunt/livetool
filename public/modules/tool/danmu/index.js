@@ -28,9 +28,9 @@ var DanmuComponent = createReactClass({
       adminAutoscrollVisible: false,
       adminOtherVisible: false,
       baiduVoice: true,
-      voiceSpd: '5', // 选填  语速，取值0-9，默认为5中语速
+      voiceSpd: '6', // 选填  语速，取值0-9，默认为5中语速
       voicePit: '5', // 选填  音调，取值0-9，默认为5中语调
-      voiceVol: '5', // 选填  音量，取值0-15，默认为5中音量
+      voiceVol: '10', // 选填  音量，取值0-15，默认为5中音量
       voicePer: '4', // 选填  发音人选择, 0为普通女声，1为普通男生，3为情感合成-度逍遥，4为情感合成-度丫丫，默认为普通女声
 
       voiceWelcome: false,
@@ -109,6 +109,7 @@ var DanmuComponent = createReactClass({
         nickname += '(' + names[names.length - 1] + ')';
       }
     }
+    if (!user) return;
     if (this.state.voiceWelcome) {
       this.speak('欢迎' + nickname + (user ? '回' : '来') + '到直播间' + (data.song ? ('(进场音乐：' + data.song + ')') : ''));
     }

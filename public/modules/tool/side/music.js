@@ -71,7 +71,7 @@ var SideMusicComponent = createReactClass({
         createElement('ul', {
             className: 'content__box__code'
           },
-          createElement('li', null, '#点歌 歌名/歌手#'),
+          createElement('li', null, '#点歌 歌名@歌手#'),
           createElement('li', null, '#切歌#')
         ),
         createElement('div', { className: 'content__box__main' }, this.renderPlaylist()),

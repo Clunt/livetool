@@ -148,8 +148,8 @@ exports.writeFlag = function(response, nickname, message) {
   });
 };
 exports.writeSong = function(response, nickname, message) {
-  // #点歌 歌曲名/歌手# | #点歌 歌曲名# | #点歌 歌手#
-  var match = message.match(/#点歌([^/#]+)(\/([^#]+))?#/);
+  // #点歌 歌曲名@歌手# | #点歌 歌曲名# | #点歌 歌手#
+  var match = message.match(/#点歌([^@#]+)(@([^#]+))?#/);
   if (!match) return;
   var song = (match[1] || '').trim();
   var singer = (match[3] || '').trim();

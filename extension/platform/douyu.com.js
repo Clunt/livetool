@@ -49,7 +49,7 @@ PLATFORM.DouyuCom.prototype = {
     // #点歌 歌曲名-歌手#
     // #点歌 春风十里#
     // #点歌 理想三旬#
-    var match = message.match(/#点歌([^/#]+)(\/([^#]+))?#/);
+    var match = message.match(/#点歌([^@#]+)(@([^#]+))?#/);
     if (!match) return;
     var song = (match[1] || '').trim();
     var singer = (match[3] || '').trim();
