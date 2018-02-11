@@ -16,6 +16,10 @@ exports = module.exports = function() {
       });
     }
   });
+  live.on('response', function(err, response) {
+    if (err) return log.error(err);
+    log.info(response);
+  });
   live.on('welcome', function(response) {
     var uid = response.body.uid;
     var autoMusic = config.auto_music[uid];
