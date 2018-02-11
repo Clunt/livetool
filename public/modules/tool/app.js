@@ -1,8 +1,10 @@
 var createElement = React.createElement;
 var App = createReactClass({
   getInitialState: function() {
+    var hash = window.location.hash;
     return {
-      admin: window.location.hash === '#admin',
+      admin: hash.indexOf('#admin') === 0,
+      hash: hash,
 
       socket: io('/'),
       state: 0, // 0 初始状态 1 Socket连接 2 弹幕连接
@@ -44,10 +46,12 @@ var App = createReactClass({
       createElement(SideComponent, {
         socket: this.state.socket,
         admin: this.state.admin,
+        hash: this.state.hash,
       }),
       createElement(DanmuComponent, {
         socket: this.state.socket,
         admin: this.state.admin,
+        hash: this.state.hash,
         state: this.state.state
       })
     );
