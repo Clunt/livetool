@@ -10,8 +10,8 @@ var SideComponent = createReactClass({
   renderHeader: function() {
     return createElement('div', { className: 'side__header' },
       createElement('div', { className: 'header__title' }, 'Clantu'),
-      createElement('div', { className: 'header__info' }, '过年两周天天乐'),
-      createElement('div', { className: 'header__info' }, '2.10-2.24朝九开播，一直到爆炸！'),
+      createElement('div', { className: 'header__info' }, '大家莫跑，真人直播！'),
+      createElement('div', { className: 'header__info' }, '弹幕都会回，烦请稍等（直播延迟15s左右）'),
       // createElement('div', { className: 'header__info' }, '每晚21:00准时开播，周末连播到爆炸'),
       createElement('div', { className: 'header__highlight' }, '点关注，不迷路')
     );

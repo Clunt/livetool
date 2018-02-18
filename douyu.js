@@ -1,6 +1,7 @@
 const Live = require('./lib/live');
 const database = require('./database');
 const config = require('./config');
+const shield = require('./shield');
 const log = LOGGER('douyu');
 const socket = require('./socket')();
 
@@ -37,6 +38,7 @@ exports = module.exports = function() {
     database.recordUser(response.body.uid, response.body.nn);
   });
   live.on('chat', function(response) {
+    if (shield(response)) return;
     socket.getIO((io) => {
       io.emit('danmu', {
         type: 'chat',

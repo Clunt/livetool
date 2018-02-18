@@ -43,11 +43,11 @@ var SideFlagComponent = createReactClass({
         className: 'content__box content__flag ' + (this.props.admin && !this.props.visible ? 'content__box--hide' : '')
       },
       createElement('div', null,
-        createElement('div', { className: 'content__box__title' }, 'Flag'),
+        createElement('div', { className: 'content__box__title' }, '致命文案征集'),
         createElement('ul', {
             className: 'content__box__code'
           },
-          createElement('li', null, '#Flag 想看的内容#')
+          createElement('li', null, '#Flag 致命文案#')
         ),
         createElement('div', { className: 'content__box__main' }, this.renderFlaglist())
       )

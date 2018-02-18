@@ -25,6 +25,7 @@
       .tool.tool--user .tool__side .side__content .content__music .music__playlist li.empty{margin: 12px 24px 0;padding-top: 6px;border-top: 1px dashed #f6f6f6;font-size: 12px;font-style: normal;text-align: center;}
     .tool.tool--user .tool__side .side__content .content__flag{}
       .tool.tool--user .tool__side .side__content .content__flag .flag__list{margin-top: 6px;font-size: 22px;line-height: 30px;}
+      .tool.tool--user .tool__side .side__content .content__flag .flag__list{font-size: 14px;}
         .tool.tool--user .tool__side .side__content .content__flag .flag__list li{position: relative;min-height: 30px;margin-bottom: 6px;}
           .tool.tool--user .tool__side .side__content .content__flag .flag__list li div{padding-right: 64px;word-break: break-all;}
           .tool.tool--user .tool__side .side__content .content__flag .flag__list li span{position: absolute;top: 0;right: 6px;text-align: right;font-style: italic;font-size: 18px;}
