@@ -1,4 +1,7 @@
+const uids = ['111622460'];
+
 exports = module.exports = function(response) {
+  if (uids.indexOf(response.body.uid) > -1) return true;
   var keys = [
     '巨乳',
   ];
