@@ -12,7 +12,7 @@
   </style>
 </head>
 <body>
-  <div style="text-align: center;height: 500px;line-height: 500px;" onclick="document.body.scrollTop = 500">点我？完美展示</div>
+  <div style="text-align: center;height: 888px;line-height: 888px;" onclick="document.body.scrollTop = 888">点我？完美展示</div>
   <div id="app" style="height: 1000px;"></div>
   <script>
     function initSourceWebcam() {
@@ -50,7 +50,7 @@
       navigator.mediaDevices.enumerateDevices().then(function(devices) {
 
         var userMediaConstraints = {
-          audio: true,
+          audio: false,
           video: {
             width: 3024,
             height: 4032,
