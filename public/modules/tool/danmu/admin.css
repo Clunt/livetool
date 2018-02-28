@@ -19,6 +19,7 @@
     .tool.tool--admin .tool__danmu .danmu__logs .logs_percent{position: absolute;bottom: 0;right: 0;width: 0;height: 2px;background: #ddd;}
     .tool.tool--admin .tool__danmu .danmu__logs ul{position: absolute;left: 0;top: 4px;bottom: 4px;right: -20px;padding: 0 64px 0 6px;overflow: auto;}
       .tool.tool--admin .tool__danmu .danmu__logs ul li{font-size: 12px;color: #666;line-height: 14px;}
+  .tool.tool--admin .tool__danmu .danmu__notice{display: none;}
   .tool.tool--admin .tool__danmu .danmu__state{position: absolute;position: absolute;bottom: 9px;right: 12px;padding: 0 6px;font-size: 12px;line-height: 20px;color: #fff;border-radius: 10px;}
     .tool.tool--admin .tool__danmu .danmu__state.danmu__state--0{background: #FE4C40;}
     .tool.tool--admin .tool__danmu .danmu__state.danmu__state--1{background: #4285F4;}

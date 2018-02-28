@@ -571,6 +571,19 @@ var DanmuComponent = createReactClass({
       )
     );
   },
+  renderNotice: function() {
+    function content() {
+      return createElement('ul', null,
+        createElement('li', null, '直播前端/后端开发、产品/UI设计'),
+        createElement('li', null, '编辑器：Sublime Text 3'),
+        createElement('li', null, '鼠标：山业SAWNA SUPPLY MA-ERGW6'),
+        createElement('li', null, '键盘：IKBC Poker II')
+      );
+    }
+    return createElement('div', {
+      className: 'danmu__notice'
+    }, content(), content())
+  },
   render: function() {
     return createElement('div', {
         className: 'tool__danmu'
@@ -580,6 +593,7 @@ var DanmuComponent = createReactClass({
       this.renderMessages(),
       this.renderLogs(),
       this.renderAdmin(),
+      this.renderNotice(),
       createElement('div', {
         className: 'danmu__state danmu__state--' + this.props.state
       }, ['离线', '连接中', '在线'][this.props.state])

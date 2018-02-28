@@ -9,7 +9,8 @@
       .tool.tool--user .tool__side .side__footer .footer__contact dl{float: left;width: 50%;}
       .tool.tool--user .tool__side .side__footer .footer__contact dt,
       .tool.tool--user .tool__side .side__footer .footer__contact dd{display: inline-block;}
-      .tool.tool--user .tool__side .side__footer .footer__contact dt{margin-right: 3px;font-weight: bold;animation: footerContact 8866ms infinite;}
+      .tool.tool--user .tool__side .side__footer .footer__contact dt{margin-right: 3px;font-weight: bold;}
+      /*.tool.tool--user .tool__side .side__footer .footer__contact dt{animation: footerContact 8866ms infinite;}*/
         .tool.tool--user .tool__side .side__footer .footer__contact dt:after{content: ':';}
   .tool.tool--user .tool__side .side__content{position: relative;height: 900px;overflow-x: hidden;overflow-y: auto;}
     .tool.tool--user .tool__side .side__content .content__box{margin: 12px;padding-bottom: 12px;border-bottom: 1px solid #eee;}
