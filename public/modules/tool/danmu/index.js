@@ -574,10 +574,14 @@ var DanmuComponent = createReactClass({
   renderNotice: function() {
     function content() {
       return createElement('ul', null,
-        createElement('li', null, '直播前端/后端开发、产品/UI设计'),
+        createElement('li', null, '直播内容 ->'),
+        createElement('li', null, '前端/后端开发、产品/UI设计'),
+        createElement('li', null, '程序员必备 ->'),
         createElement('li', null, '编辑器：Sublime Text 3'),
-        createElement('li', null, '鼠标：山业SAWNA SUPPLY MA-ERGW6'),
-        createElement('li', null, '键盘：IKBC Poker II')
+        createElement('li', null, '鼠标i：山业 SANWA SUPPLY MA-ERGW6'),
+        createElement('li', null, '键盘：IKBC Poker II'),
+        createElement('li', null, '眼贴/药水：好视力眼贴、santen 参天 FXNEO、santen 参天 beautyeye'),
+        createElement('li', null, '膏药：万通筋骨贴')
       );
     }
     return createElement('div', {
