@@ -33,7 +33,7 @@ var DanmuComponent = createReactClass({
       voiceVol: '10', // 选填  音量，取值0-15，默认为5中音量
       voicePer: '4', // 选填  发音人选择, 0为普通女声，1为普通男生，3为情感合成-度逍遥，4为情感合成-度丫丫，默认为普通女声
 
-      voiceWelcome: this.props.hash.indexOf('core') > -1,
+      voiceWelcome: false,
       voiceChat: this.props.hash.indexOf('core') > -1,
       messagesLocked: false,
       giftsLocked: false,
@@ -42,6 +42,7 @@ var DanmuComponent = createReactClass({
       messages: [],
       gifts: [],
       logs: [],
+      clock: new Date
     };
   },
   componentDidMount: function() {
@@ -65,6 +66,13 @@ var DanmuComponent = createReactClass({
           break;
       }
     }.bind(this));
+    setInterval(function () {
+      this.setState(function(prevState) {
+        return {
+          clock: new Date()
+        };
+      });
+    }.bind(this), 500);
   },
   componentDidUpdate: function() {
     var giftNode = this.refs.gift;
@@ -362,6 +370,24 @@ var DanmuComponent = createReactClass({
       )
     );
   },
+  renderClock: function() {
+    var clock = this.state.clock;
+    var date = [
+      [
+        clock.getFullYear(),
+        ('0' + (clock.getMonth() + 1)).replace(/.*(\d{2})$/, '$1'),
+        ('0' + clock.getDate()).replace(/.*(\d{2})$/, '$1')
+      ].join('-'),
+      [
+        ('0' + clock.getHours()).replace(/.*(\d{2})$/, '$1'),
+        ('0' + clock.getMinutes()).replace(/.*(\d{2})$/, '$1'),
+        ('0' + clock.getSeconds()).replace(/.*(\d{2})$/, '$1')
+      ].join(':')
+    ].join(' ');
+    return createElement('div', {
+      className: 'danmu__clock'
+    }, date);
+  },
   renderLogs: function() {
     return createElement('div', {
       className: 'danmu__logs'
@@ -574,14 +600,18 @@ var DanmuComponent = createReactClass({
   renderNotice: function() {
     function content() {
       return createElement('ul', null,
-        createElement('li', null, '直播内容 ->'),
-        createElement('li', null, '前端/后端开发、产品/UI设计'),
-        createElement('li', null, '程序员必备 ->'),
-        createElement('li', null, '编辑器：Sublime Text 3'),
-        createElement('li', null, '鼠标i：山业 SANWA SUPPLY MA-ERGW6'),
-        createElement('li', null, '键盘：IKBC Poker II'),
-        createElement('li', null, '眼贴/药水：好视力眼贴、santen 参天 FXNEO、santen 参天 beautyeye'),
-        createElement('li', null, '膏药：万通筋骨贴')
+        createElement('li', null, '[直播内容]'),
+        createElement('li', null, '->'),
+        createElement('li', null, '前端/后端开发、产品/UI设计；'),
+        createElement('li', null, '[相册框架]'),
+        createElement('li', null, 'Vue+Express+Mysql；'),
+        createElement('li', null, '[开发必备]'),
+        createElement('li', null, '->'),
+        createElement('li', null, '编辑器：Sublime Text 3；'),
+        createElement('li', null, '鼠标：山业 SANWA SUPPLY MA-ERGW6；'),
+        createElement('li', null, '键盘：IKBC Poker II；'),
+        createElement('li', null, '眼贴/药水：好视力眼贴、santen 参天 FXNEO、santen 参天 beautyeye；'),
+        createElement('li', null, '膏药：万通筋骨贴；')
       );
     }
     return createElement('div', {
@@ -596,6 +626,7 @@ var DanmuComponent = createReactClass({
       this.renderGifts(),
       this.renderMessages(),
       this.renderLogs(),
+      this.renderClock(),
       this.renderAdmin(),
       this.renderNotice(),
       createElement('div', {
