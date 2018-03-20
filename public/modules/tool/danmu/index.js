@@ -33,7 +33,7 @@ var DanmuComponent = createReactClass({
       voiceVol: '10', // 选填  音量，取值0-15，默认为5中音量
       voicePer: '4', // 选填  发音人选择, 0为普通女声，1为普通男生，3为情感合成-度逍遥，4为情感合成-度丫丫，默认为普通女声
 
-      voiceWelcome: false,
+      voiceWelcome: this.props.hash.indexOf('core') > -1,
       voiceChat: this.props.hash.indexOf('core') > -1,
       messagesLocked: false,
       giftsLocked: false,

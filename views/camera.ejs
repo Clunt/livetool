@@ -64,6 +64,27 @@
           document.body.addEventListener('click', function() {
             domElement.play();
           });
+
+          // const track = stream.getVideoTracks()[0];
+
+          // domElement.addEventListener('loadedmetadata', (e) => {
+          //   window.setTimeout(() => (
+          //     onCapabilitiesReady(track.getCapabilities())
+          //   ), 500);
+          // });
+
+          // function onCapabilitiesReady(capabilities) {
+          //   console.log(capabilities)
+          //   console.log(capabilities.torch)
+          //   console.log(track.applyConstraints)
+          //   if (capabilities.torch) {
+          //     track.applyConstraints({
+          //       advanced: [{torch: true}]
+          //     })
+          //     .catch(e => console.log(e));
+          //   }
+          // }
+
           // wait until the video stream is ready
           // var interval = setInterval(function() {
           //   if (!domElement.videoWidth) {
