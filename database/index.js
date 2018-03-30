@@ -91,7 +91,6 @@ exports = module.exports = database;
 exports.addSong = addSong;
 
 exports.recordDeserve = function(response) {
-  if (!uid) return;
   writeDatabase(databaseRecord, function(save, database) {
     database.deserve = database.deserve || [];
     database.deserve.push({

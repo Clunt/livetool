@@ -89,13 +89,32 @@ var DanmuComponent = createReactClass({
     }
   },
   gift: function(data) {
-    if (this.props.admin && data.type === 'deserve') return alert(data.response.raw); // TODO
     var response = data.response;
     var body = response.body;
+    var gift = '';
+    if (data.type === 'deserve') {
+      var nickName = (String(data.response.raw).match(/Snick@A=([^@]*)/) || [])[1] || '英雄';
+      var deserveLev = (String(data.response.raw).match(/\/lev@=([^/@]*)/) || [])[1] || 0;
+      var deserveLevText = [
+        '慷慨大方 的酬勤',
+        '一掷千金 的酬勤',
+        '包养主播',
+        '今晚临幸',
+        '的酬勤，今晚我是你的人',
+        '的酬勤，今晚你别把我当人'
+      ];
+      gift = deserveLevText[deserveLev];
+      var deserveText = `感谢 ${nickName} ${gift}！`
+      this.props.admin && alert(deserveText);
+      body = {
+        nn: nickName
+      };
+    }
     this.setState(function(prevState) {
       var gifts = Util.copy(prevState.gifts);
       gifts.push({
         key: Date.now(),
+        gift: gift,
         nickname: body.nn,
         body: body,
         raw: response.raw
@@ -280,8 +299,8 @@ var DanmuComponent = createReactClass({
         ref: 'gift'
       },
         this.state.gifts.map(function(item, index) {
-          var gift = '';
-          if (this.props.admin) {
+          var gift = item.gift || '';
+          if (this.props.admin && !gift) {
             gift = Config.danmu.gifts[item.body.gfid];
           }
           gift = gift || '礼物';
