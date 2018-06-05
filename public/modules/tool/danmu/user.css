@@ -24,6 +24,7 @@
   .tool.tool--user .tool__danmu .danmu__notice ul{display: inline-block;width: 100%;padding: 0 6px;font-size: 14px;background: #212121;}
   .tool.tool--user .tool__danmu .danmu__notice li{display: inline;margin: 0 6px;}
   /*.tool.tool--user .tool__danmu .danmu__notice li:after{content: ';';}*/
+  .tool.tool--user .tool__danmu .danmu__answer{position: absolute;left: 0;width: 100%;bottom: 0;line-height: 96px;text-align: center;white-space: nowrap;animation: danmuAnswer 3600ms;}
   .tool.tool--user .tool__danmu .danmu__state{position: absolute;position: absolute;bottom: 9px;right: 12px;padding: 0 6px;font-size: 12px;line-height: 20px;color: #fff;border-radius: 10px;}
     .tool.tool--user .tool__danmu .danmu__state.danmu__state--0{background: #FE4C40;}
     .tool.tool--user .tool__danmu .danmu__state.danmu__state--1{background: #4285F4;}
@@ -34,3 +35,4 @@
 @keyframes danmuNotice { 0% {left: 0;color: gold;} 50% {color: #fff;} 100% {left: -150%;color: gold;} }
 @keyframes welcomeNickname { from {color: #F28D00;} to {color: #fff;} }
 @keyframes welcomeAnimate { from {left: 100%;} to {left: -100px;} }
+@keyframes danmuAnswer { from {font-size: 0;color: #fff;} to {font-size: 88px;color: gold;} }

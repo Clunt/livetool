@@ -40,6 +40,7 @@ var DanmuComponent = createReactClass({
       logsLocked: false,
       welcomes: [],
       messages: [],
+      answer: null,
       gifts: [],
       logs: [],
       clock: new Date
@@ -178,6 +179,36 @@ var DanmuComponent = createReactClass({
     if (this.state.voiceChat) {
       this.speak(body.txt);
     }
+
+    var answer = (function(question) {
+      var list = [
+        ['键盘是IKBC Poker 2', q => /什么/.test(q) && /键盘/.test(q)],
+        ['青轴键盘', q => /什么/.test(q) && /轴/.test(q)],
+        ['山业的人体工学鼠标', q => /什么/.test(q) && /鼠标/.test(q)],
+        ['闭眼一顿蒙', q => /什么/.test(q) && /眼镜/.test(q)],
+        ['我也爱你！', q => /爱你/.test(q)],
+        ['小霸王学习机！', q => /什么/.test(q) && /电脑/.test(q)],
+        ['编辑器是Sublime Text 3', q => /什么/.test(q) && /编辑器/.test(q), q => /是/.test(q) && /编辑器/.test(q)],
+      ];
+      for (var i = 0; i < list.length; i++) {
+        var fns = list[i];
+        for (var j = 1; j < fns.length; j++) {
+          if (fns[j](question)) {
+            return list[i][0];
+          }
+        }
+      }
+    })(body.txt);
+    if (answer && !this.state.answer) {
+      this.setState({ answer: answer });
+      setTimeout(() => {
+        this.speak(answer);
+      }, body.txt.length * 360);
+      setTimeout(() => {
+        this.setState({ answer: null });
+      }, 3600);
+    }
+
     this.setState(function(prevState) {
       var messages = Util.copy(prevState.messages);
       messages.push({
@@ -637,6 +668,11 @@ var DanmuComponent = createReactClass({
       className: 'danmu__notice'
     }, content(), content())
   },
+  renderAnswer: function() {
+    return this.state.answer ? createElement('div', {
+      className: 'danmu__answer'
+    }, this.state.answer) : createElement('span');
+  },
   render: function() {
     return createElement('div', {
         className: 'tool__danmu'
@@ -648,6 +684,7 @@ var DanmuComponent = createReactClass({
       this.renderClock(),
       this.renderAdmin(),
       this.renderNotice(),
+      this.renderAnswer(),
       createElement('div', {
         className: 'danmu__state danmu__state--' + this.props.state
       }, ['离线', '连接中', '在线'][this.props.state])

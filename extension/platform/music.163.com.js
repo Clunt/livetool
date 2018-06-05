@@ -16,7 +16,7 @@ PLATFORM.Music163Com.prototype = {
   inject: function() {
     var scriptNode = document.createElement('script');
     var script = this.send.toString()
-      .replace(/function[^(]+()[^{]*{/, '')
+      .replace(/function\s*()[^{]*{/, '')
       .replace(/}[^}]*$/, '');
     scriptNode.innerHTML = [this.ajax.toString(), script].join(';');
     document.head.appendChild(scriptNode);
