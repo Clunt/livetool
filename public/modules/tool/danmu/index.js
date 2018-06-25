@@ -182,13 +182,14 @@ var DanmuComponent = createReactClass({
 
     var answer = (function(question) {
       var list = [
-        ['键盘是IKBC Poker 2', q => /什么/.test(q) && /键盘/.test(q)],
-        ['青轴键盘', q => /什么/.test(q) && /轴/.test(q)],
-        ['山业的人体工学鼠标', q => /什么/.test(q) && /鼠标/.test(q)],
+        ['青轴', q => /什么/.test(q) && /轴/.test(q)],
+        ['IKBC Poker 2', q => /什么/.test(q) && /键盘/.test(q)],
+        ['山业人体工学鼠标', q => /(什么|替代)/.test(q) && /鼠标/.test(q)],
         ['闭眼一顿蒙', q => /什么/.test(q) && /眼镜/.test(q)],
+        ['Github搜索Clunt', q => /github/i.test(q) && /(地址|什么|有)/.test(q)],
         ['我也爱你！', q => /爱你/.test(q)],
         ['小霸王学习机！', q => /什么/.test(q) && /电脑/.test(q)],
-        ['编辑器是Sublime Text 3', q => /什么/.test(q) && /编辑器/.test(q), q => /是/.test(q) && /编辑器/.test(q)],
+        ['Sublime Text 3', q => /什么/.test(q) && /编辑器/.test(q), q => /是/.test(q) && /编辑器/.test(q)],
       ];
       for (var i = 0; i < list.length; i++) {
         var fns = list[i];

@@ -30,6 +30,6 @@ var Config = {
     address: '334022534'
   }, {
     plantform: '微信',
-    address: '15022651939'
+    address: '******'
   }]
 };
