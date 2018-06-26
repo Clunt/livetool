@@ -182,6 +182,12 @@ var DanmuComponent = createReactClass({
 
     var answer = (function(question) {
       var list = [
+        ['15022651939', q => (
+          (/微信/.test(q) && /(加|留|有)/.test(q))
+          || /^微信$/.test(q)
+        )],
+        ['334022534', q => /(QQ群)/i.test(q)],
+        ['微信还是QQ群', q => /(联系方式|群)/.test(q)],
         ['青轴', q => /什么/.test(q) && /轴/.test(q)],
         ['IKBC Poker 2', q => /什么/.test(q) && /键盘/.test(q)],
         ['山业人体工学鼠标', q => /(什么|替代)/.test(q) && /鼠标/.test(q)],
