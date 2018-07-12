@@ -1,6 +1,6 @@
 .tool.tool--user .tool__side{position: absolute;top: 0;left: 0;width: 360px;height: 100%;}
   .tool.tool--user .tool__side .side__admin{display: none;}
-  .tool.tool--user .tool__side .side__header{position: relative;height: 100px;padding: 12px;}
+  .tool.tool--user .tool__side .side__header{position: relative;height: 128px;padding: 12px;}
     .tool.tool--user .tool__side .side__header .header__title{font-size: 36px;}
     .tool.tool--user .tool__side .side__header .header__info{font-size: 16px;color: #666;}
     .tool.tool--user .tool__side .side__header .header__highlight{position: absolute;top: 24px;right: 12px;padding: 0 9px;background: #D84C31;font-size: 12px;color: #fff;line-height: 24px;border-radius: 12px;}

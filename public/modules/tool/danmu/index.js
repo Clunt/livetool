@@ -186,6 +186,10 @@ var DanmuComponent = createReactClass({
           (/微信/.test(q) && /(加|留|有)/.test(q))
           || /^微信$/.test(q)
         )],
+        ['点歌失败，格式：#点歌 歌曲名#', q => (
+          /点歌/.test(q)
+          && !/#点歌\s+[^#]+#/.test(q)
+        )],
         ['334022534', q => /(QQ群)/i.test(q)],
         ['微信还是QQ群', q => /(联系方式|群)/.test(q)],
         ['青轴', q => /什么/.test(q) && /轴/.test(q)],
@@ -194,6 +198,7 @@ var DanmuComponent = createReactClass({
         ['闭眼一顿蒙', q => /什么/.test(q) && /眼镜/.test(q)],
         ['Github搜索Clunt', q => /github/i.test(q) && /(地址|什么|有)/.test(q)],
         ['我也爱你！', q => /爱你/.test(q)],
+        ['我也喜欢你！', q => /喜欢你/.test(q)],
         ['小霸王学习机！', q => /什么/.test(q) && /电脑/.test(q)],
         ['Sublime Text 3', q => /什么/.test(q) && /编辑器/.test(q), q => /是/.test(q) && /编辑器/.test(q)],
       ];
