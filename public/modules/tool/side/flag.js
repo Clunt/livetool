@@ -28,6 +28,11 @@ var SideFlagComponent = createReactClass({
       return b.count - a.count;
     });
 
+    return flaglist.map(function(item, index) {
+      return createElement('li', {
+        key: index
+      }, item.flag)
+    });
     return createElement('ul', {
         className: 'flag__list'
       },
@@ -43,13 +48,14 @@ var SideFlagComponent = createReactClass({
         className: 'content__box content__flag ' + (this.props.admin && !this.props.visible ? 'content__box--hide' : '')
       },
       createElement('div', null,
-        createElement('div', { className: 'content__box__title' }, '致命文案征集'),
+        createElement('div', { className: 'content__box__title' }, '需求'),
         createElement('ul', {
             className: 'content__box__code'
           },
-          createElement('li', null, '#Flag 致命文案#')
+          this.renderFlaglist()
+          // createElement('li', null, '')
         ),
-        createElement('div', { className: 'content__box__main' }, this.renderFlaglist())
+        // createElement('div', { className: 'content__box__main' }, this.renderFlaglist())
       )
     );
   }

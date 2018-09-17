@@ -69,13 +69,13 @@ var SideComponent = createReactClass({
   },
   renderContent: function() {
     return createElement('div', { className: 'side__content' },
-      createElement(SideMusicComponent, {
-        visible: this.state.musicVisible,
+      createElement(SideFlagComponent, {
+        visible: this.state.flagVisible,
         socket: this.props.socket,
         admin: this.props.admin
       }),
-      createElement(SideFlagComponent, {
-        visible: this.state.flagVisible,
+      createElement(SideMusicComponent, {
+        visible: this.state.musicVisible,
         socket: this.props.socket,
         admin: this.props.admin
       }),

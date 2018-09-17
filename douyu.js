@@ -45,14 +45,7 @@ exports = module.exports = function() {
         response: response
       });
     });
-
-    // 点歌相关
-    var nickname = response.body.nn.trim();
-    var message = response.body.txt.trim();
-    message = message.replace(/＃/g, '#');
-    database.writeFlag(response, nickname, message);;
-    database.writeSong(response, nickname, message);;
-    database.cutSong(response, nickname, message);;
+    database.main(response);
   });
   live.on('gift', function(response) {
     socket.getIO((io) => {

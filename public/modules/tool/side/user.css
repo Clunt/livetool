@@ -1,6 +1,6 @@
 .tool.tool--user .tool__side{position: absolute;top: 0;left: 0;width: 360px;height: 100%;}
   .tool.tool--user .tool__side .side__admin{display: none;}
-  .tool.tool--user .tool__side .side__header{position: relative;height: 128px;padding: 12px;}
+  .tool.tool--user .tool__side .side__header{position: relative;height: 150px;padding: 12px;}
     .tool.tool--user .tool__side .side__header .header__title{font-size: 36px;}
     .tool.tool--user .tool__side .side__header .header__info{font-size: 16px;color: #666;}
     .tool.tool--user .tool__side .side__header .header__highlight{position: absolute;top: 24px;right: 12px;padding: 0 9px;background: #D84C31;font-size: 12px;color: #fff;line-height: 24px;border-radius: 12px;}
@@ -12,7 +12,7 @@
       .tool.tool--user .tool__side .side__footer .footer__contact dt{margin-right: 3px;font-weight: bold;}
       /*.tool.tool--user .tool__side .side__footer .footer__contact dt{animation: footerContact 8866ms infinite;}*/
         .tool.tool--user .tool__side .side__footer .footer__contact dt:after{content: ':';}
-  .tool.tool--user .tool__side .side__content{position: relative;height: 900px;overflow-x: hidden;overflow-y: auto;}
+  .tool.tool--user .tool__side .side__content{position: relative;height: 850px;overflow-x: hidden;overflow-y: auto;}
     .tool.tool--user .tool__side .side__content .content__box{margin: 12px;padding-bottom: 12px;border-bottom: 1px solid #eee;}
       .tool.tool--user .tool__side .side__content .content__box .content__box__title{font-size: 30px;}
       .tool.tool--user .tool__side .side__content .content__box .content__box__code{margin: 6px 0 12px;padding: 6px;background: #eee;border: 1px solid #ddd;border-radius: 3px;}

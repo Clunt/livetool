@@ -12,6 +12,7 @@ var DEFAULT_SONG = '临安初雨';
 var databaseRecord = path.resolve(__dirname, './record.json');
 var databaseFlag = path.resolve(__dirname, './flag.json');
 var databaseMusic = path.resolve(__dirname, './music.json');
+var databaseGod = path.resolve(__dirname, './god.json');
 var database = {};
 
 function readDatabase(path, callback) {
@@ -127,11 +128,13 @@ exports.recordUser = function(uid, name) {
 };
 
 exports.writeFlag = function(response, nickname, message) {
+  if (String(response.body.uid) !== String(config.anchor_id)) return;
   var match = message.match(/#flag([^#]+)#/i);
   if (!match) return;
   var flag = match[1].trim();
   if (!flag) return;
-  writeDatabase(databaseFlag, function(save, database) {
+  writeDatabase(databaseFlag, function(save) {
+    var database = {}; // 只留一个需求描述
     if (Number(response.body.rg) >= 4) {
       database[flag] = database[flag] || 0;
       database[flag] += 1;
@@ -213,6 +216,73 @@ exports.getUser = function(uid, callback) {
     callback(user);
   });
 };
+
+exports.god = function(response) {
+  // $1=点歌.歌名
+  if (
+    String(response.body.uid) !== String(config.anchor_id)
+    && String(response.body.brid) !== String(config.room_id)
+  ) return;
+  var body = response.body;
+  var uid = body.uid;
+  var txt = body.txt.trim();
+  if (/^[0-9]$/.test(txt)) {
+    readDatabase(databaseGod, function(god) {
+      god = god || {};
+      var record = god[uid] || {};
+      var method = record[txt];
+      if (method) {
+        response.body.txt = `$快捷键${txt} => ${method.join(' ')}`;
+        socket.getIO(io => {
+          io.emit('danmu', {
+            type: 'chat',
+            response: response
+          });
+        });
+
+        var methodResponse = JSON.parse(JSON.stringify(response));
+        methodResponse.body.txt = `#${method.join(' ')}#`;
+        main(methodResponse);
+      } else {
+        response.body.txt = `$默认设置${txt}不存在，语法$[0-9]=@method[.@content]`;
+        socket.getIO(io => {
+          io.emit('danmu', {
+            type: 'chat',
+            response: response
+          });
+        });
+      }
+    });
+  } else {
+    var match = txt.match(/^\$([0-9])=(.+)(?:\.(.+))?$/);
+    if (!match) return;
+    writeDatabase(databaseGod, function(save, database) {
+      database = database || {};
+      var record = database[uid] = database[uid] || {};
+      record[match[1]] = match[3] ? [match[2], match[3]] : [match[2]];
+      response.body.txt = `$设置${match[1]} => [${record[match[1]].join(' ')}]成功`;
+      socket.getIO(io => {
+        io.emit('danmu', {
+          type: 'chat',
+          response: response
+        });
+      });
+      save(database);
+    });
+  }
+};
+
+function main(response) {
+  // 点歌相关
+  var nickname = response.body.nn.trim();
+  var message = response.body.txt.trim();
+  message = message.replace(/＃/g, '#');
+  exports.writeFlag(response, nickname, message);;
+  exports.writeSong(response, nickname, message);;
+  exports.cutSong(response, nickname, message);;
+  exports.god(response, nickname, message);;
+};
+exports.main = main;
 
 
 

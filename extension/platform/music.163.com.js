@@ -22,7 +22,7 @@ PLATFORM.Music163Com.prototype = {
     document.head.appendChild(scriptNode);
   },
   initSocket: function() {
-    var socket = this.socket = io('http://127.0.0.1:6688/');
+    var socket = this.socket = io('https://127.0.0.1:46688/');
     socket.on('musicCut', this.next.bind(this));
   },
   play: function() {
@@ -32,7 +32,7 @@ PLATFORM.Music163Com.prototype = {
     this.next();
   },
   next: function() {
-    this.ajax('http://127.0.0.1:6688/music/next', function(err, data) {
+    this.ajax('https://127.0.0.1:46688/music/next', function(err, data) {
       if (err || !data[0]) return alert('歌单需要加入歌曲');
       var song = data[0];
       try {
@@ -67,7 +67,7 @@ PLATFORM.Music163Com.prototype = {
         document.body.dataset.playtime = Date.now() + Number(song.dt);
         var img = new Image();
         var query = 'id=' + encodeURIComponent(song.id) + '&name=' + encodeURIComponent(song.name) + '&dt=' + encodeURIComponent(song.dt);
-        img.src = 'http://127.0.0.1:6688/music/record?' + query;
+        img.src = 'https://127.0.0.1:46688/music/record?' + query;
       }.bind(this), 1000);
     }
     var XHR_SEND = window.XMLHttpRequest.prototype.send;

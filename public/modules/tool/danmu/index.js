@@ -189,10 +189,13 @@ var DanmuComponent = createReactClass({
         ['点歌失败，格式：#点歌 歌曲名#', q => (
           /点歌/.test(q)
           && !/#点歌\s+[^#]+#/.test(q)
+          && !/^\$/.test(q)
         )],
         ['334022534', q => /(QQ群)/i.test(q)],
         ['微信还是QQ群', q => /(联系方式|群)/.test(q)],
         ['青轴', q => /什么/.test(q) && /轴/.test(q)],
+        ['M+字体', q => /什么/.test(q) && /字体/.test(q)],
+        ['16岁', q => /主播/.test(q) && /岁数|多大|几岁|年龄|芳龄/.test(q)],
         ['IKBC Poker 2', q => /什么/.test(q) && /键盘/.test(q)],
         ['山业人体工学鼠标', q => /(什么|替代)/.test(q) && /鼠标/.test(q)],
         ['闭眼一顿蒙', q => /什么/.test(q) && /眼镜/.test(q)],
@@ -205,7 +208,11 @@ var DanmuComponent = createReactClass({
       for (var i = 0; i < list.length; i++) {
         var fns = list[i];
         for (var j = 1; j < fns.length; j++) {
-          if (fns[j](question)) {
+          if (fns[j] instanceof RegExp) {
+            if (fns[j].test(question)) {
+              return list[i][0];
+            }
+          } else if (fns[j](question)) {
             return list[i][0];
           }
         }
