@@ -222,6 +222,7 @@ exports.god = function(response) {
   if (
     String(response.body.uid) !== String(config.anchor_id)
     && String(response.body.brid) !== String(config.room_id)
+    && Number(response.body.rg) < 4
   ) return;
   var body = response.body;
   var uid = body.uid;
