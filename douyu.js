@@ -6,6 +6,34 @@ const log = LOGGER('douyu');
 const socket = require('./socket')();
 
 
+function transformResponse(callback) {
+  let cache;
+  let lastmodify;
+  let expires = 5 * 60 * 1000;
+  function read(callback) {
+    if (cache && lastmodify && Date.now() - expires < lastmodify) {
+      callback(cache);
+    } else {
+      database.readDatabase(database.databaseGod, function(god) {
+        cache = god;
+        lastmodify = Date.now()
+        callback(cache);
+      });
+    }
+  }
+  return function(response) {
+    read(function(conf) {
+      if (response && response.body) {
+        let body = response.body;
+        if (conf[body.uid] && conf[body.uid].nickname && body.nn) {
+          body.nn = conf[body.uid].nickname;
+        }
+      }
+      callback(response);
+    });
+  };
+}
+
 exports = module.exports = function() {
   var live = new Live(config.room_id);
   socket.emitter.on('connection', (nsp, socket) => {
@@ -21,7 +49,7 @@ exports = module.exports = function() {
     if (err) return log.error(err);
     log.info(response);
   });
-  live.on('welcome', function(response) {
+  live.on('welcome', transformResponse(function(response) {
     var uid = response.body.uid;
     var autoMusic = config.auto_music[uid];
     database.addSong(autoMusic); // 自动点歌
@@ -36,8 +64,8 @@ exports = module.exports = function() {
       });
     });
     database.recordUser(response.body.uid, response.body.nn);
-  });
-  live.on('chat', function(response) {
+  }));
+  live.on('chat', transformResponse(function(response) {
     if (shield(response)) return;
     socket.getIO((io) => {
       io.emit('danmu', {
@@ -46,8 +74,8 @@ exports = module.exports = function() {
       });
     });
     database.main(response);
-  });
-  live.on('gift', function(response) {
+  }));
+  live.on('gift', transformResponse(function(response) {
     socket.getIO((io) => {
       io.emit('danmu', {
         type: 'gift',
@@ -55,8 +83,8 @@ exports = module.exports = function() {
       });
     });
     database.recordGift(response.body.uid, response.body.nn);
-  });
-  live.on('deserve', function(response) {
+  }));
+  live.on('deserve', transformResponse(function(response) {
     socket.getIO((io) => {
       io.emit('danmu', {
         type: 'deserve',
@@ -64,8 +92,8 @@ exports = module.exports = function() {
       });
     });
     database.recordDeserve(response);
-  });
-  live.on('message', function(response) {
+  }));
+  live.on('message', transformResponse(function(response) {
     var type = response.body.type;
     socket.getIO((io) => {
       io.emit('danmu', {
@@ -81,6 +109,6 @@ exports = module.exports = function() {
       }
     });
     log.info(response.raw);
-  });
+  }));
   return live;
 };

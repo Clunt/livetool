@@ -88,7 +88,8 @@ function addSong(song, prior) {
 
 
 exports = module.exports = database;
-
+exports.databaseGod = databaseGod;
+exports.readDatabase = readDatabase;
 exports.addSong = addSong;
 
 exports.recordDeserve = function(response) {
@@ -230,7 +231,7 @@ exports.god = function(response) {
   if (/^[0-9]$/.test(txt)) {
     readDatabase(databaseGod, function(god) {
       god = god || {};
-      var record = god[uid] || {};
+      var record = (god[uid] || {}).shortcuts || {};
       var method = record[txt];
       if (method) {
         response.body.txt = `$快捷键${txt} => ${method.join(' ')}`;
@@ -255,11 +256,12 @@ exports.god = function(response) {
       }
     });
   } else {
-    var match = txt.match(/^\$([0-9])=(.+)(?:\.(.+))?$/);
+    var match = txt.match(/^\$([0-9])=([^.]+)(?:\.(.+))?$/);
     if (!match) return;
     writeDatabase(databaseGod, function(save, database) {
       database = database || {};
-      var record = database[uid] = database[uid] || {};
+      database[uid] = database[uid] || {};
+      var record = database[uid].shortcuts || {};
       record[match[1]] = match[3] ? [match[2], match[3]] : [match[2]];
       response.body.txt = `$设置${match[1]} => [${record[match[1]].join(' ')}]成功`;
       socket.getIO(io => {
@@ -273,15 +275,45 @@ exports.god = function(response) {
   }
 };
 
+function customNickname(response) {
+  // 自定义昵称
+  // $nickname=.+
+  if (
+    String(response.body.uid) !== String(config.anchor_id)
+    && String(response.body.brid) !== String(config.room_id)
+    && Number(response.body.rg) < 4
+  ) return;
+  var body = response.body;
+  var uid = body.uid;
+  var txt = body.txt.trim();
+  var match = txt.match(/^\$nickname=(.+)$/);
+  if (!match) return;
+  writeDatabase(databaseGod, function(save, database) {
+    database = database || {};
+    database[uid] = database[uid] || {};
+    let nickname = match[1].trim();
+    database[uid].nickname = nickname;
+    response.body.txt = `$设置昵称 => [${nickname}]成功`;
+    socket.getIO(io => {
+      io.emit('danmu', {
+        type: 'chat',
+        response: response
+      });
+    });
+    save(database);
+  });
+}
+
 function main(response) {
   // 点歌相关
   var nickname = response.body.nn.trim();
   var message = response.body.txt.trim();
   message = message.replace(/＃/g, '#');
-  exports.writeFlag(response, nickname, message);;
-  exports.writeSong(response, nickname, message);;
-  exports.cutSong(response, nickname, message);;
-  exports.god(response, nickname, message);;
+  exports.writeFlag(response, nickname, message);
+  exports.writeSong(response, nickname, message);
+  exports.cutSong(response, nickname, message);
+  exports.god(response);
+  customNickname(response);
 };
 exports.main = main;
 
