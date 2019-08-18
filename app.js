@@ -10,6 +10,7 @@ var douyu = require('./douyu');
 
 var index = require('./routes/index');
 var music = require('./routes/music');
+var naming = require('./routes/naming');
 
 var app = express();
 douyu();
@@ -29,6 +30,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
+app.use('/naming', naming);
 app.use('/music', music);
 app.use('/camera', (req, res) => res.render('camera'));
 

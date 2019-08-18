@@ -1,4 +1,6 @@
 # Ignore OS Files
+application/dist
+bin/livetool.app
 .DS_Store
 
 # Logs
