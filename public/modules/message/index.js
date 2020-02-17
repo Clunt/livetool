@@ -1,31 +1,27 @@
+const ROOM_ID = 2919896;
+main();
 function main() {
-  // const ws = 'wss://wsproxy.douyu.com:6674/';
-  // wss://danmuproxy.douyu.com:8505/
   const ws = 'wss://danmuproxy.douyu.com:8502/';
   socket = new WebSocket(ws),
-  socket.binaryType = "arraybuffer",
-  socket.onclose = function() {
-    console.log('onclose', arguments);
-  };
-  socket.onerror = function() {
-    console.log('onerror', arguments);
-  };
+  socket.binaryType = 'arraybuffer';
+  socket.onclose = () => console.log('onclose', arguments);
+  socket.onerror = () => console.log('onerror', arguments);
   socket.onopen = function() {
     console.log('onopen', arguments);
-    sendMessage('type@=loginreq/roomid@=2919896/dfl@=sn@AA=105@ASss@AA=1/username@=157576640/uid@=157576640/ver@=20190530/aver@=218101901/ct@=0/');
-    // sendMessage('type@=loginreq/roomid@=2919896/dfl@=sn@AA=105@ASss@AA=1/username@=157576640/uid@=157576640/ver@=20190530/aver@=218101901/ct@=0/');
+    sendMessage(`type@=loginreq/roomid@=${ROOM_ID}/dfl@=sn@AA=105@ASss@AA=1/username@=157576640/uid@=157576640/ver@=20190610/aver@=218101901/ct@=0/`);
+    // sendMessage('type@=loginreq/roomid@=63136/dfl@=sn@AA=105@ASss@AA=1/username@=157576640/password@=/ltkid@=65624792/biz@=1/stk@=b59d5705c7d077dd/devid@=82b8993351cbf9c4fd63225700031501/ct@=0/pt@=2/cvr@=0/tvr@=7/apd@=/rt@=1581944157/vk@=f68fa6f881a59d20422c4c44050a65c0/ver@=20190610/aver@=218101901/dmbt@=chrome/dmbv@=79/');
   };
-  socket.onmessage = function(event) {
-    decode(event.data, function(msg) {
-      const res = parse(msg);
-      console.log(res.body)
-      var type = res.body.type;
-      if (type === 'loginres') {
-        sendMessage('type@=joingroup/rid@=2919896/gid@=-9999/');
-      } else {
+  socket.onmessage = decodeMessage(msg => {
+      const { body } = parse(msg);
+      console.log('onmessage', body)
+      switch (body.type) {
+        case 'loginres':
+          sendMessage(`type@=joingroup/rid@=${ROOM_ID}/gid@=-9999/`);
+          break;
+        default:
+          console.log(body.type);
       }
-    });
-  };
+  });
   function sendMessage(msg) {
     socket.send(encode(msg));
   }
@@ -61,6 +57,11 @@ function main() {
     new Uint8Array(i.buffer).set(n, a),
     i.buffer
   }
+
+  function decodeMessage(cb) {
+    return event => decode(event.data, msg => cb(msg));
+  }
+
   let buffer = [];
   let readLength = 0;
   function decode(e, t) {

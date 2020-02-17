@@ -14,6 +14,12 @@ router.get('/', function(req, res, next) {
   });
 });
 
+router.get('/message', function(req, res, next) {
+  res.render('message', {
+    config: config
+  });
+});
+
 router.get('/room', function(req, res, next) {
   var url = 'http://open.douyucdn.cn/api/RoomApi/room/' + config.room_id;
   http.get(url, function(response) {

@@ -1,4 +1,4 @@
-.tool.tool--user .tool__side{position: absolute;top: 0;left: 0;width: 360px;height: 100%;}
+.tool.tool--user .tool__side{position: absolute;top: 0;left: 0;width: 320px;height: 100%;}
   .tool.tool--user .tool__side .side__admin{display: none;}
   .tool.tool--user .tool__side .side__header{position: relative;height: 150px;padding: 12px;}
     .tool.tool--user .tool__side .side__header .header__title{font-size: 36px;}
@@ -19,7 +19,7 @@
       .tool.tool--user .tool__side .side__content .content__box .content__box__main{overflow-x: hidden;overflow-y: auto;}
     .tool.tool--user .tool__side .side__content .content__info{display: none;}
     .tool.tool--user .tool__side .side__content .content__music{}
-      .tool.tool--user .tool__side .side__content .content__music .content__box__main{max-height: 360px;}
+      .tool.tool--user .tool__side .side__content .content__music .content__box__main{max-height: 320px;}
       .tool.tool--user .tool__side .side__content .content__music .music__playlist{margin-top: 6px;font-size: 22px;color: #999;line-height: 30px;word-break: break-all;}
       .tool.tool--user .tool__side .side__content .content__music .music__playlist li{margin-bottom: 6px;}
       .tool.tool--user .tool__side .side__content .content__music .music__playlist li:first-child{margin-bottom: 12px;font-style: italic;color: #4285F4;}

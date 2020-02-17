@@ -9,11 +9,13 @@
   <title>Camera</title>
   <style>
   *{margin: 0;padding: 0;}
+  #app{font-size: 0;}
   </style>
 </head>
 <body>
-  <div style="text-align: center;height: 888px;line-height: 888px;" onclick="document.body.scrollTop = 888">点我？完美展示</div>
-  <div id="app" style="height: 1000px;"></div>
+  <div id="touch" style="text-align: center;height: 600px;line-height: 600px;background: #efefef">点我？完美展示</div>
+  <div id="app"></div>
+  <div style="height: 1000px;background: #000"></div>
   <script>
     function initSourceWebcam() {
       // init default value
@@ -52,11 +54,11 @@
         var userMediaConstraints = {
           audio: false,
           video: {
-            width: 3024,
-            height: 4032,
+            // width: 3024,
+            // height: 4890,
             facingMode: 'environment',
           }
-        }
+        };
 
         // get a device which satisfy the constraints
         navigator.mediaDevices.getUserMedia(userMediaConstraints).then(function success(stream) {
@@ -107,6 +109,10 @@
 
       return domElement;
     }
+    document.getElementById('touch').onclick = function () {
+      console.log(this.getBoundingClientRect().height)
+      document.documentElement.scrollTop = this.getBoundingClientRect().height - 150;
+    };
     window.onload = function() {
       var el = initSourceWebcam();
       document.getElementById('app').appendChild(el);
