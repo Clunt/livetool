@@ -11,7 +11,7 @@
     "bunyan": "^1.8.12",
     "cookie-parser": "~1.4.3",
     "create-react-class": "^15.6.2",
-    "debug": "~2.6.3",
+    "debug": "~2.6.9",
     "ejs": "^2.5.7",
     "express": "~4.15.2",
     "md5": "^2.2.1",
