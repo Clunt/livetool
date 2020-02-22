@@ -129,25 +129,28 @@ exports.recordUser = function(uid, name) {
 };
 
 exports.writeFlag = function(response, nickname, message) {
-  if (String(response.body.uid) !== String(config.anchor_id)) return;
+  // if (String(response.body.uid) !== String(config.anchor_id)) return;
   var match = message.match(/#flag([^#]+)#/i);
   if (!match) return;
   var flag = match[1].trim();
   if (!flag) return;
-  writeDatabase(databaseFlag, function(save) {
-    var database = {}; // 只留一个需求描述
-    if (Number(response.body.rg) >= 4) {
-      database[flag] = database[flag] || 0;
-      database[flag] += 1;
-    } else if (database[flag]) {
-      database[flag] += 1;
-    }
-    socket.getIO((io) => {
-      io.emit('flag', {
-        flaglist: database
+  readDatabase(databaseFlag, function(database) {
+    writeDatabase(databaseFlag, function(save) {
+        database[flag] = database[flag] || 0;
+        database[flag] += 1;
+      // if (Number(response.body.rg) >= 4) {
+      //   database[flag] = database[flag] || 0;
+      //   database[flag] += 1;
+      // } else if (database[flag]) {
+      //   database[flag] += 1;
+      // }
+      socket.getIO((io) => {
+        io.emit('flag', {
+          flaglist: database
+        });
       });
+      save(database);
     });
-    save(database);
   });
 };
 exports.writeSong = function(response, nickname, message) {

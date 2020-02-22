@@ -28,10 +28,15 @@ var SideFlagComponent = createReactClass({
       return b.count - a.count;
     });
 
+    if (flaglist.length === 0) {
+      return createElement('li', {
+        key: 0
+      }, '小cc好厉害，0bug！')
+    }
     return flaglist.map(function(item, index) {
       return createElement('li', {
         key: index
-      }, item.flag)
+      }, createElement('div', null, `${item.flag}(+${item.count})`))
     });
     return createElement('ul', {
         className: 'flag__list'
@@ -39,7 +44,7 @@ var SideFlagComponent = createReactClass({
       flaglist.map(function(item, index) {
         return createElement('li', {
           key: index
-        }, createElement('div', null, item.flag), createElement('span', null, item.count))
+        }, createElement('div', null, `$(${item.count})${item.flag}`))
       })
     );
   },
@@ -48,7 +53,9 @@ var SideFlagComponent = createReactClass({
         className: 'content__box content__flag ' + (this.props.admin && !this.props.visible ? 'content__box--hide' : '')
       },
       createElement('div', null,
-        createElement('div', { className: 'content__box__title' }, '需求'),
+        createElement('div', { className: 'content__box__title' }, 'BugList'),
+        createElement('div', { className: '' }, '相册体验: http://clantu.club/i/CABBBC'),
+        createElement('div', { className: '' }, '#flag 提交bug#'),
         createElement('ul', {
             className: 'content__box__code'
           },

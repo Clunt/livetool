@@ -176,6 +176,9 @@ var DanmuComponent = createReactClass({
   chat: function(data) {
     var response = data.response;
     var body = response.body;
+    if (['335700956'].indexOf(String(body.uid)) > -1) {
+      return;
+    }
     if (this.state.voiceChat) {
       this.speak(body.txt);
     }
