@@ -9,7 +9,7 @@
   .tool.tool--admin .tool__side .side__header,
   .tool.tool--admin .tool__side .side__footer{display: none;}
   .tool.tool--admin .tool__side .side__content{}
-  .tool.tool--admin .tool__side .side__content .content__box__code{display: none;}
+  .tool.tool--admin .tool__side .side__content .content__box__code{}
     .tool.tool--admin .tool__side .side__content .content__box{position: fixed;z-index: 999;top: 60px;bottom: 0;left: 0;right: 0;background: rgba(255,255,255,0.18);backdrop-filter: blur(1px);overflow: hidden;}
     .tool.tool--admin .tool__side .side__content .content__box.content__box--hide{display: none;}
     .tool.tool--admin .tool__side .side__content .content__box > div{position: relative;width: 80%;max-height: 80%;margin: 0 auto;background: #fff;overflow: auto;border-radius: 0 0 6px 6px;box-shadow: 0 3px 9px rgba(0,0,0,0.24);}

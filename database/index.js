@@ -130,7 +130,7 @@ exports.recordUser = function(uid, name) {
 
 exports.writeFlag = function(response, nickname, message) {
   // if (String(response.body.uid) !== String(config.anchor_id)) return;
-  var match = message.match(/#flag([^#]+)#/i);
+  var match = message.match(/#flag([^#]+)#/i) || message.match(/#bug([^#]+)#/i);
   if (!match) return;
   var flag = match[1].trim();
   if (!flag) return;
