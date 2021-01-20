@@ -21,6 +21,6 @@
     "pinyin": "^2.8.3",
     "request": "^2.81.0",
     "serve-favicon": "~2.4.2",
-    "socket.io": "^2.0.3"
+    "socket.io": "^2.4.0"
   }
 }
