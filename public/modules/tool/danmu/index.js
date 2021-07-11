@@ -140,7 +140,7 @@ var DanmuComponent = createReactClass({
     // TODO
     // if (!user) return;
     if (this.state.voiceWelcome) {
-      this.speak('欢迎' + nickname + (user ? '回' : '来') + '到直播间' + (data.song ? ('(进场音乐：' + data.song + ')') : ''));
+      this.speak('欢迎' + nickname + (user ? '回' : '来') + '到直播间' + (data.song ? ('(进场音乐：' + data.song + ')') : ''), body);
     }
     this.setState(function(prevState) {
       var welcomes = Util.copy(prevState.welcomes) || {};
@@ -176,59 +176,59 @@ var DanmuComponent = createReactClass({
   chat: function(data) {
     var response = data.response;
     var body = response.body;
-    if (['335700956'].indexOf(String(body.uid)) > -1) {
-      return;
-    }
-    if (this.state.voiceChat) {
-      this.speak(body.txt);
-    }
 
-    var answer = (function(question) {
-      var list = [
-        ['15022651939', q => (
-          (/微信/.test(q) && /(加|留|有)/.test(q))
-          || /^微信$/.test(q)
-        )],
-        ['点歌失败，格式：#点歌 歌曲名#', q => (
-          /点歌/.test(q)
-          && !/#点歌\s+[^#]+#/.test(q)
-          && !/^\$/.test(q)
-        )],
-        ['334022534', q => /(QQ群)/i.test(q)],
-        ['微信还是QQ群', q => /(联系方式|群)/.test(q)],
-        ['青轴', q => /什么/.test(q) && /轴/.test(q)],
-        ['M+字体', q => /什么/.test(q) && /字体/.test(q)],
-        ['16岁', q => /主播/.test(q) && /岁数|多大|几岁|年龄|芳龄/.test(q)],
-        ['IKBC Poker 2', q => /什么/.test(q) && /键盘/.test(q)],
-        ['山业人体工学鼠标', q => /(什么|替代)/.test(q) && /鼠标/.test(q)],
-        ['闭眼一顿蒙', q => /什么/.test(q) && /眼镜/.test(q)],
-        ['Github搜索Clunt', q => /github/i.test(q) && /(地址|什么|有)/.test(q)],
-        ['我也爱你！', q => /爱你/.test(q)],
-        ['我也喜欢你！', q => /喜欢你/.test(q)],
-        ['小霸王学习机！', q => /什么/.test(q) && /电脑/.test(q)],
-        ['Sublime Text 3', q => /什么/.test(q) && /编辑器/.test(q), q => /是/.test(q) && /编辑器/.test(q)],
-      ];
-      for (var i = 0; i < list.length; i++) {
-        var fns = list[i];
-        for (var j = 1; j < fns.length; j++) {
-          if (fns[j] instanceof RegExp) {
-            if (fns[j].test(question)) {
+    if (data.friend) {
+      if (this.state.voiceChat) {
+        this.speak(body.txt, body);
+      }
+
+      var answer = (function(question) {
+        var list = [
+          ['15022651939', q => (
+            (/微信/.test(q) && /(加|留|有)/.test(q))
+            || /^微信$/.test(q)
+          )],
+          ['点歌失败，格式：#点歌 歌曲名#', q => (
+            /点歌/.test(q)
+            && !/#点歌\s+[^#]+#/.test(q)
+            && !/^\$/.test(q)
+          )],
+          ['334022534', q => /(QQ群)/i.test(q)],
+          ['微信还是QQ群', q => /(联系方式|群)/.test(q)],
+          ['青轴', q => /什么/.test(q) && /轴/.test(q)],
+          ['M+字体', q => /什么/.test(q) && /字体/.test(q)],
+          ['16岁', q => /主播/.test(q) && /岁数|多大|几岁|年龄|芳龄/.test(q)],
+          ['IKBC Poker 2', q => /什么/.test(q) && /键盘/.test(q)],
+          ['山业人体工学鼠标', q => /(什么|替代)/.test(q) && /鼠标/.test(q)],
+          ['闭眼一顿蒙', q => /什么/.test(q) && /眼镜/.test(q)],
+          ['Github搜索Clunt', q => /github/i.test(q) && /(地址|什么|有)/.test(q)],
+          ['我也爱你！', q => /爱你/.test(q)],
+          ['我也喜欢你！', q => /喜欢你/.test(q)],
+          ['小霸王学习机！', q => /什么/.test(q) && /电脑/.test(q)],
+          ['Sublime Text 3', q => /什么/.test(q) && /编辑器/.test(q), q => /是/.test(q) && /编辑器/.test(q)],
+        ];
+        for (var i = 0; i < list.length; i++) {
+          var fns = list[i];
+          for (var j = 1; j < fns.length; j++) {
+            if (fns[j] instanceof RegExp) {
+              if (fns[j].test(question)) {
+                return list[i][0];
+              }
+            } else if (fns[j](question)) {
               return list[i][0];
             }
-          } else if (fns[j](question)) {
-            return list[i][0];
           }
         }
+      })(body.txt);
+      if (answer && !this.state.answer) {
+        this.setState({ answer: answer });
+        setTimeout(() => {
+          this.speak(answer);
+        }, body.txt.length * 360);
+        setTimeout(() => {
+          this.setState({ answer: null });
+        }, 3600);
       }
-    })(body.txt);
-    if (answer && !this.state.answer) {
-      this.setState({ answer: answer });
-      setTimeout(() => {
-        this.speak(answer);
-      }, body.txt.length * 360);
-      setTimeout(() => {
-        this.setState({ answer: null });
-      }, 3600);
     }
 
     this.setState(function(prevState) {
@@ -260,7 +260,11 @@ var DanmuComponent = createReactClass({
       };
     });
   },
-  speak: function(text) {
+  speak: function(text, body) {
+    body = body || {};
+    if (body.uid && ['335700956', '340401550'].indexOf(String(body.uid)) > -1) {
+      return;
+    }
     text = text || '';
     text = text.replace(/\[emot\:dy\d+\]/g, '');
     if (this.state.baiduVoice) {

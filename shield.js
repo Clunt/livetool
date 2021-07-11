@@ -1,3 +1,6 @@
+const fs = require('fs');
+const path = require('path');
+
 const uids = ['111622460'];
 
 exports = module.exports = function(response) {
@@ -17,3 +20,9 @@ exports = module.exports = function(response) {
 };
 
 exports.song = function(song) {};
+exports.friend = function(response) {
+  const filename = path.resolve(__dirname, 'friend.json');
+  const file = fs.readFileSync(filename, 'utf8');
+  const friend = JSON.parse(file);
+  return friend.includes(response.body.uid);
+};

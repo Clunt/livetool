@@ -70,7 +70,8 @@ exports = module.exports = function() {
     socket.getIO((io) => {
       io.emit('danmu', {
         type: 'chat',
-        response: response
+        response: response,
+        friend: shield.friend(response)
       });
     });
     database.main(response);

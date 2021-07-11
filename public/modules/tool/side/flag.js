@@ -54,7 +54,7 @@ var SideFlagComponent = createReactClass({
       },
       createElement('div', null,
         createElement('div', { className: 'content__box__title' }, 'BugList'),
-        createElement('div', { className: '' }, '相册体验: http://kelantu.com/i/CABBBC'),
+        createElement('div', { className: '' }, '相册体验: https://clantu.com/i/7CKKK7'),
         createElement('div', { className: '' }, '#bug 提交bug内容#'),
         createElement('ul', {
             className: 'content__box__code'
