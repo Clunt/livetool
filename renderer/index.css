@@ -1,0 +1,3 @@
+html, body {display: flex;height: 100%;flex-direction: column;}
+#titlebar {height: 24px;-webkit-app-region: drag;}
+#app {position: relative;display: flex;flex: 1;overflow: auto;}
