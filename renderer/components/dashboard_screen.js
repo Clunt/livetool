@@ -28,29 +28,41 @@ function DashboardScreen(props) {
       })).sort((a, b) => b.createTimestamp - a.createTimestamp).forEach(i => addMessage(i));
     });
 
-    livetoolBridge.ipc.onChartMessage((event, cmd, info, seq) => {
-      switch (cmd) {
+    livetoolBridge.ipc.onChartMessage((event, msg, seq) => {
+      switch (msg.cmd) {
         case 'DANMU_MSG': {
-          const [ _, message, user, medal ] = info;
+          const [ _, message, user, medal ] = msg.info;
           const [ userId, userName ] = user;
           const [ medalLevel, medalName, medalUserName, medalRoomId ] = medal;
-          const createTimestamp = info[9].ts;
-          addMessage({
+          const createTimestamp = msg.info[9].ts;
+          return addMessage({
+            type: 'danmu',
             message,
             userId, userName,
             createTimestamp,
             medalLevel, medalName, medalUserName, medalRoomId,
-            _info: info,
+            _msg: msg,
+          });
+        }
+        case 'INTERACT_WORD': {
+          const userId = msg.data.uid;
+          const userName = msg.data.uname;
+          const createTimestamp = msg.data.timestamp;
+          return addMessage({
+            type: 'interact',
+            userId, userName,
+            createTimestamp,
+            _msg: msg,
           });
         }
         default:
-          return console.log({ cmd, info, seq });
+          return console.log(msg, seq);
       }
     });
   }, []);
 
   const columns = [
-    { title: '用户', key: 'userName',
+    { title: '用户', key: 'userName', width: 180,
       render: message => {
         return (
           <span>

@@ -20,7 +20,5 @@ exports = module.exports = function createWindow() {
 
   win.loadFile(path.join(ROOT_DIRNAME, 'renderer/index.html'));
 
-  win.webContents.openDevTools();
-
   app.setActivationPolicy('regular');
 }

@@ -4,7 +4,15 @@
   "description": "",
   "main": "main/index.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "make": "electron-forge make"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {
+        "icon": "./public/icon.png"
+      }
+    }
   },
   "repository": {
     "type": "git",
@@ -17,6 +25,7 @@
   },
   "homepage": "https://github.com/Clunt/livetool#readme",
   "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.57",
     "electron": "^13.1.6"
   },
   "dependencies": {

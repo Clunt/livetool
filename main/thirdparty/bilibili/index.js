@@ -40,8 +40,8 @@ Bilibili.prototype.authorize = function() {
   this.initialize();
 };
 
-Bilibili.prototype.onMessage = function({ cmd, info }, seq) {
-  this.emitter.emit('message', cmd, info, seq);
+Bilibili.prototype.onMessage = function(message, seq) {
+  this.emitter.emit('message', message, seq);
   // switch (cmd) {
   //   case MESSAGE_CMD_Danmaku: {
   //     return;

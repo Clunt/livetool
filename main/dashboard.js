@@ -78,9 +78,9 @@ Dashboard.prototype.initialize = async function(liveInfo, createLiveStream) {
   this.httpServer = createHttpServer(this.port);
   // this.websocketServer = createWebSocketServer(this.httpServer.server, '/socket');
 
-  this.liveStream.emitter.on('message', (cmd, info, seq) => {
+  this.liveStream.emitter.on('message', (message, seq) => {
     BrowserWindow.getAllWindows().forEach(win => {
-      win.webContents.send(IPC_CHANNEL.CHART_MESSAGE, cmd, info, seq);
+      win.webContents.send(IPC_CHANNEL.CHART_MESSAGE, message, seq);
     });
   });
 };

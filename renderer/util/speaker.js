@@ -20,8 +20,21 @@ Speaker.prototype.speak = function(message) {
   if (message._history) {
     return;
   }
-  const text = message.message;
-  this.queue.push(async _ => {
+
+  console.log(message)
+  let text;
+  switch (message.type) {
+    case 'danmu':
+      text = message.message;
+      break;
+    case 'interact':
+      text = `欢迎${message.userName}来到直播间`;
+      break;
+    default:
+      return;
+  }
+
+  text && this.queue.push(async _ => {
     if (text) {
       await this[this.voicer](text)
     }
