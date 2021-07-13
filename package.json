@@ -1,17 +1,17 @@
 {
   "name": "livetool",
   "version": "1.0.0",
-  "description": "",
+  "description": "Clantu LiveTool",
   "main": "main/index.js",
   "scripts": {
     "start": "electron .",
-    "make": "electron-forge make"
+    "build": "electron-builder"
   },
-  "config": {
-    "forge": {
-      "packagerConfig": {
-        "icon": "./public/icon.png"
-      }
+  "build": {
+    "appId": "com.clantu.livetool",
+    "mac": {
+      "icon": "public/icon.icns",
+      "category": "public.app-category.developer-tools"
     }
   },
   "repository": {
@@ -25,7 +25,6 @@
   },
   "homepage": "https://github.com/Clunt/livetool#readme",
   "devDependencies": {
-    "@electron-forge/cli": "^6.0.0-beta.57",
     "electron": "^13.1.6"
   },
   "dependencies": {
@@ -34,6 +33,7 @@
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
     "ejs": "^3.1.6",
+    "electron-builder": "^22.11.7",
     "electron-store": "^8.0.0",
     "express": "^4.17.1",
     "get-port": "^5.1.1",
