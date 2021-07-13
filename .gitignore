@@ -1,4 +1,5 @@
 # Ignore OS Files
+dist
 application/dist
 bin/livetool.app
 .DS_Store
