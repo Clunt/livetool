@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/Clunt/livetool#readme",
   "devDependencies": {
-    "electron": "^13.1.6",
+    "electron": "^13.3.0",
     "electron-builder": "^22.11.7"
   },
   "dependencies": {
